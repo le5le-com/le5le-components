@@ -1,6 +1,6 @@
 {
   "name": "le5le-components",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
@@ -24,8 +24,9 @@
     "@angular/router": "^7.0.1",
     "core-js": "^2.5.4",
     "echarts": "^4.2.0-rc.2",
-    "le5le-ui": "^0.7.0",
+    "le5le-ui": "^0.7.1",
     "monaco-editor": "^0.14.3",
+    "node-sass": "^4.9.0",
     "rxjs": "^6.0.0",
     "xterm": "3.8.0",
     "zone.js": "^0.8.26"

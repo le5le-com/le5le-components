@@ -18,6 +18,8 @@ export class DivMoveDirective implements OnInit, OnDestroy {
   isHead = false;
   @Input()
   pos: any;
+  @Input()
+  noMove = false;
   @Output()
   move = new EventEmitter<any>();
   nativeElement: any;
@@ -85,6 +87,9 @@ export class DivMoveDirective implements OnInit, OnDestroy {
   setPos(nativeElement: any, pos: any) {
     if (this.move) {
       this.move.emit(pos);
+    }
+    if (this.noMove) {
+      return;
     }
     if (this.pos) {
       nativeElement.style.left = pos.x + 'px';

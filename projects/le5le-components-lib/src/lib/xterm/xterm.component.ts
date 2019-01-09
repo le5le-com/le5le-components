@@ -1,12 +1,4 @@
-import {
-  OnInit,
-  OnDestroy,
-  Component,
-  Input,
-  ViewChild,
-  ElementRef,
-  ViewEncapsulation
-} from '@angular/core';
+import { OnInit, OnDestroy, Component, Input, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 
 import { Terminal } from 'xterm';
 import { fit } from 'xterm/lib/addons/fit/fit';
@@ -14,7 +6,9 @@ import { attach, detach } from 'xterm/lib/addons/attach/attach';
 
 @Component({
   selector: 'ui-xterm',
-  template: `<div class="ui-xterm" #terminal></div>`,
+  template: `
+    <div class="ui-xterm" #terminal></div>
+  `,
   styleUrls: ['./xterm.css'],
   encapsulation: ViewEncapsulation.None
 })
@@ -60,6 +54,7 @@ export class XTermComponent implements OnInit, OnDestroy {
 
     this.socket = new WebSocket(this.socketUrl);
     this.socket.onopen = this.attachTerminal;
+    this.options.socket = this.socket;
   }
 
   focus() {
