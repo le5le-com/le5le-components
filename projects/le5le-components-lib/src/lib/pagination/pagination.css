@@ -18,9 +18,9 @@
 .pagination .buttons > a {
   text-decoration: none;
   background-color: #fff;
-  border: 1px solid #ddd;
-  height: 0.26rem;
-  line-height: 0.26rem;
+  border: 1px solid #c4c9cd;
+  height: 0.3rem;
+  line-height: 0.28rem;
   width: 0.32rem;
   text-align: center;
 }

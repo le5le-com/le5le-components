@@ -112,10 +112,7 @@ export class NoticeService {
 
     let footerElem = null;
     if (!options.theme || options.theme.indexOf('system-notice') < 0) {
-      if (
-        options.maxCount > 0 &&
-        this.noticeContainer.childNodes.length >= options.maxCount
-      ) {
+      if (options.maxCount > 0 && this.noticeContainer.childNodes.length >= options.maxCount) {
         this.noticeContainer.removeChild(this.noticeContainer.childNodes[0]);
       }
       this.noticeContainer.appendChild(rootElem);
@@ -162,9 +159,7 @@ export class NoticeService {
       if (!this.isDown) {
         return;
       }
-      headerElem.parentElement.style.transform = `translate(${e.clientX -
-        this.isDown.clientX +
-        this.initialPos.x}px, ${e.clientY -
+      headerElem.parentElement.style.transform = `translate(${e.clientX - this.isDown.clientX + this.initialPos.x}px, ${e.clientY -
         this.isDown.clientY +
         this.initialPos.y}px)`;
     };
@@ -260,9 +255,7 @@ export class NoticeService {
     };
     elem.appendChild(modalContentElem);
 
-    modalContentElem.appendChild(
-      this.makeHeaderElem(elem, options.title, options.callback)
-    );
+    modalContentElem.appendChild(this.makeHeaderElem(elem, options.title, options.callback));
 
     const contentElem = document.createElement('div');
     contentElem.className = 'modal-body';
@@ -279,14 +272,19 @@ export class NoticeService {
         options.callback(true);
       }
     };
-    modalContentElem.appendChild(
-      this.makeFooterElem(elem, okCallback, cancelCallback, options)
-    );
+    modalContentElem.appendChild(this.makeFooterElem(elem, okCallback, cancelCallback, options));
     document.body.appendChild(elem);
   }
 
-  // noticeService.input({text: '初始值', placeholder: '请输入', required: true, type: 'text', callback:(ret)=>{}});
-  // required: true - 不允许为空。 type:可选，默认文本
+  // noticeService.input({
+  //   label: 'input上方提示说明文字',
+  //   text: '初始值',
+  //   placeholder: '请输入',
+  //   required: true,
+  //   regExp: '正则表达式校验',
+  //   type: 'text', 可选，默认文本
+  //   callback: (ret) => {}
+  // });
   input(options) {
     let inputElem;
     let errorElem;
@@ -307,9 +305,7 @@ export class NoticeService {
     };
     elem.appendChild(modalContentElem);
 
-    modalContentElem.appendChild(
-      this.makeHeaderElem(elem, options.title, options.callback)
-    );
+    modalContentElem.appendChild(this.makeHeaderElem(elem, options.title, options.callback));
 
     const contentElem = document.createElement('div');
     contentElem.className = 'modal-body';
@@ -363,26 +359,19 @@ export class NoticeService {
       this.validate(inputElem, errorElem, options);
     };
     bodyElem.appendChild(inputElem);
-    modalContentElem.appendChild(
-      this.makeFooterElem(elem, okCallback, cancelCallback, options)
-    );
+    modalContentElem.appendChild(this.makeFooterElem(elem, okCallback, cancelCallback, options));
 
     document.body.appendChild(elem);
     inputElem.focus();
 
     errorElem = document.createElement('div');
     errorElem.className = 'hidden';
-    errorElem.innerHTML =
-      options.errorTip ||
-      '请输入' + (options.label || options.placeholder || '');
+    errorElem.innerHTML = options.errorTip || '请输入' + (options.label || options.placeholder || '');
     bodyElem.appendChild(errorElem);
   }
 
   validate(inputElem, errorElem, options) {
-    if (
-      (options.required && !inputElem.value) ||
-      (options.regExp && !new RegExp(options.regExp).test(inputElem.value))
-    ) {
+    if ((options.required && !inputElem.value) || (options.regExp && !new RegExp(options.regExp).test(inputElem.value))) {
       inputElem.className = 'input full input-error ng-invalid';
       errorElem.className = 'block mt5 error';
       return false;

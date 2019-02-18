@@ -1,0 +1,10 @@
+<div class="p20">
+  <h3>分页示例：</h3>
+  <ui-pagination
+    class="block mt10"
+    [(pageIndex)]="pageIndex"
+    [pageCount]="pageCount"
+    [pageTotal]="total"
+    (change)="onPage()"
+  ></ui-pagination>
+</div>

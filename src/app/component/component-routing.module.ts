@@ -13,6 +13,7 @@ import { ComponentSliderComponent } from './slider/slider.component';
 import { ComponentCalendarComponent } from './calendar/calendar.component';
 import { ComponentUploadComponent } from './upload/upload.component';
 import { ComponentEditorComponent } from './editor/editor.component';
+import { ComponentPaginationComponent } from './pagination/pagination.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -62,6 +63,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'editor',
         component: ComponentEditorComponent
+      },
+      {
+        path: 'pagination',
+        component: ComponentPaginationComponent
       }
     ]
   }

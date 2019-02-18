@@ -1,48 +1,87 @@
-import {
-  OnInit,
-  OnChanges,
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  SimpleChange,
-  ViewEncapsulation
-} from '@angular/core';
+import { OnChanges, Component, Input, Output, EventEmitter, SimpleChange, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'ui-pagination',
   template: `
-    <div class="pagination" *ngIf="pages.length>1">
-      <div class="full">当前为第{{ pageIndex }}页，共{{ pages.length }}页 {{ pageTotal }}条记录</div>
+    <div class="pagination" *ngIf="pages.length > 1">
       <div class="buttons">
-        <a (click)="goPage(pageIndex-1)"><i class="iconfont icon-angle-left"></i></a>
-        <ng-template ngFor let-item let-i="index" [ngForOf]="pages" >
-          <a *ngIf="item === 1 && !canShow(1)" (click)="goPage(pageIndex-4)">...</a>
-          <a *ngIf="canShow(item)" (click)="goPage(item)" [class.active]="pageIndex===item">{{ item }}</a>
+        <a (click)="goPage(pageIndex - 1)"><i class="iconfont icon-angle-left"></i></a>
+        <ng-template ngFor let-item let-i="index" [ngForOf]="pages">
+          <a *ngIf="item === 1 && !canShow(1)" (click)="goPage(pageIndex - 4)">...</a>
+          <a *ngIf="canShow(item)" (click)="goPage(item)" [class.active]="pageIndex === item">{{ item }}</a>
         </ng-template>
-        <a *ngIf="pages.length > 10 && pages.length - pageIndex > 4" (click)="goPage(pageIndex+4)">...</a>
-        <a (click)="goPage(pageIndex+1)"><i class="iconfont icon-angle-right"></i></a>
+        <a *ngIf="pages.length > 10 && pages.length - pageIndex > 4" (click)="goPage(pageIndex + 4)">...</a>
+        <a (click)="goPage(pageIndex + 1)"><i class="iconfont icon-angle-right"></i></a>
       </div>
+      <div class="full">
+        <ui-select
+          class="mh10"
+          style="width: .85rem"
+          [(ngModel)]="pageCount"
+          [options]="countOptions"
+          [multi]="false"
+          (change)="onCountChange()"
+        ></ui-select>
+        <span class="nowrap">
+          跳至
+          <input
+            type="number"
+            class="input inline"
+            style="width: .5rem"
+            [(ngModel)]="goIndex"
+            (keyup.enter)="onGo()"
+            uiIsPositiveInteger
+          />
+          页
+        </span>
+      </div>
+      <div>共{{ pages.length }}页，{{ pageTotal }}条记录</div>
     </div>
   `,
   styleUrls: ['./pagination.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class PaginationComponent implements OnInit, OnChanges {
+export class PaginationComponent implements OnChanges {
   @Input() pageIndex = 1;
   @Output() pageIndexChange = new EventEmitter<any>();
   @Input() pageCount = 1;
+  @Output() pageCountChange = new EventEmitter<any>();
   @Input() pageTotal = 1;
   @Output() change = new EventEmitter<any>();
   @Input() skipQueryChange = false;
   pages: number[] = [1];
-  constructor(
-    private _router: Router,
-    private _activateRoute: ActivatedRoute
-  ) {}
+  goIndex: number;
+  countOptions = {
+    id: 'id',
+    name: 'name',
+    list: [
+      {
+        id: 10,
+        name: '10条/页'
+      },
+      {
+        id: 15,
+        name: '15条/页'
+      },
+      {
+        id: 20,
+        name: '20条/页'
+      },
+      {
+        id: 30,
+        name: '30条/页'
+      },
+      {
+        id: 50,
+        name: '50条/页'
+      }
+    ],
+    noDefaultOption: true
+  };
+  constructor(private _router: Router, private _activateRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  setPages() {
     this.pages = [1];
     if (this.pageTotal && this.pageTotal > 1) {
       const size = Math.ceil(this.pageTotal / this.pageCount);
@@ -53,7 +92,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    this.ngOnInit();
+    this.setPages();
   }
 
   goPage(pageIndex: number) {
@@ -96,10 +135,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     }
 
     if (this.pages.length - this.pageIndex < 4) {
-      if (
-        index > this.pageIndex ||
-        this.pageIndex - index < 10 - this.pages.length + this.pageIndex
-      ) {
+      if (index > this.pageIndex || this.pageIndex - index < 10 - this.pages.length + this.pageIndex) {
         return true;
       }
 
@@ -114,5 +150,26 @@ export class PaginationComponent implements OnInit, OnChanges {
     }
 
     return false;
+  }
+
+  onCountChange() {
+    this.setPages();
+    if ((this.pageIndex - 1) * this.pageCount >= this.pageTotal) {
+      this.pageIndex = this.pages.length;
+    }
+    this.pageCountChange.emit(this.pageCount);
+    this.goPage(this.pageIndex);
+  }
+
+  onGo() {
+    if (
+      !this.goIndex ||
+      this.goIndex < 1 ||
+      (this.goIndex + '').indexOf('.') > -1 ||
+      (this.goIndex - 1) * this.pageCount >= this.pageTotal
+    ) {
+      return;
+    }
+    this.goPage(+this.goIndex);
   }
 }

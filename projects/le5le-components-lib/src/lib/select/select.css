@@ -82,6 +82,8 @@ ui-select.full .ui-select {
 .ui-select .flex input {
   outline: none;
   border: none;
+  padding: 0 0 0 0.08rem;
+  margin-left: 0.02rem;
   min-height: 0.26rem;
 }
 
@@ -89,6 +91,7 @@ ui-select.full .ui-select {
 .ui-select input[disabled] {
   background-color: #fff;
   width: 1.62rem !important;
+  max-width: calc(100% - 0.24rem);
 }
 
 .ui-select.readonly input[readonly],

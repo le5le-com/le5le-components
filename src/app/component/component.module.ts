@@ -15,6 +15,7 @@ import { ComponentSliderComponent } from './slider/slider.component';
 import { ComponentCalendarComponent } from './calendar/calendar.component';
 import { ComponentUploadComponent } from './upload/upload.component';
 import { ComponentEditorComponent } from './editor/editor.component';
+import { ComponentPaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   imports: [SharedModule, ComponentRoutingModule],
@@ -30,7 +31,8 @@ import { ComponentEditorComponent } from './editor/editor.component';
     ComponentSliderComponent,
     ComponentCalendarComponent,
     ComponentUploadComponent,
-    ComponentEditorComponent
+    ComponentEditorComponent,
+    ComponentPaginationComponent
   ],
   providers: []
 })
