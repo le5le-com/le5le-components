@@ -14,6 +14,7 @@ import { EmailValidator } from './validator/email.directive';
 import { UrlValidator } from './validator/url.directive';
 import { MinValidator } from './validator/min.directive';
 import { RegExpValidator } from './validator/regExp.directive';
+import { MyRequiredValidator } from './validator/required.directive';
 import { ImageUploadComponent } from './fileUpload/imageUpload.component';
 import { EditorComponent } from './editor/editor.component';
 import { UiLoadingComponent } from './loading/ui.loading.component';
@@ -49,6 +50,7 @@ const MODULES = [
   UrlValidator,
   MinValidator,
   RegExpValidator,
+  MyRequiredValidator,
   ImageUploadComponent,
   EditorComponent,
   UiLoadingComponent,

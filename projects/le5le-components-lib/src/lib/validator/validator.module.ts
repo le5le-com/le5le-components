@@ -12,6 +12,7 @@ import { EmailValidator } from './email.directive';
 import { UrlValidator } from './url.directive';
 import { MinValidator } from './min.directive';
 import { RegExpValidator } from './regExp.directive';
+import { MyRequiredValidator } from './required.directive';
 
 @NgModule({
   imports: [CommonModule, FormsModule],
@@ -25,7 +26,8 @@ import { RegExpValidator } from './regExp.directive';
     EmailValidator,
     UrlValidator,
     MinValidator,
-    RegExpValidator
+    RegExpValidator,
+    MyRequiredValidator
   ],
   exports: [
     ValidatorService,
@@ -37,7 +39,8 @@ import { RegExpValidator } from './regExp.directive';
     EmailValidator,
     UrlValidator,
     MinValidator,
-    RegExpValidator
+    RegExpValidator,
+    MyRequiredValidator
   ]
 })
 export class ValidatorModule {}

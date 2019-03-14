@@ -1,6 +1,6 @@
 {
   "name": "le5le-components",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",

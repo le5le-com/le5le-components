@@ -1,4 +1,13 @@
-import { OnChanges, Component, Input, Output, EventEmitter, SimpleChange, ViewEncapsulation } from '@angular/core';
+import {
+  OnInit,
+  OnChanges,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChange,
+  ViewEncapsulation
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -16,14 +25,15 @@ import { ActivatedRoute, Router } from '@angular/router';
       </div>
       <div class="full">
         <ui-select
-          class="mh10"
+          *ngIf="options.pageCount"
+          class="ml10"
           style="width: .85rem"
           [(ngModel)]="pageCount"
           [options]="countOptions"
           [multi]="false"
           (change)="onCountChange()"
         ></ui-select>
-        <span class="nowrap">
+        <span class="nowrap ml10">
           跳至
           <input
             type="number"
@@ -42,14 +52,17 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./pagination.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class PaginationComponent implements OnChanges {
+export class PaginationComponent implements OnInit, OnChanges {
   @Input() pageIndex = 1;
   @Output() pageIndexChange = new EventEmitter<any>();
   @Input() pageCount = 1;
   @Output() pageCountChange = new EventEmitter<any>();
   @Input() pageTotal = 1;
   @Output() change = new EventEmitter<any>();
-  @Input() skipQueryChange = false;
+  @Input() options = {
+    pageCount: true,
+    query: true
+  };
   pages: number[] = [1];
   goIndex: number;
   countOptions = {
@@ -81,6 +94,15 @@ export class PaginationComponent implements OnChanges {
   };
   constructor(private _router: Router, private _activateRoute: ActivatedRoute) {}
 
+  ngOnInit() {
+    if (this.options.pageCount === undefined) {
+      this.options.pageCount = true;
+    }
+    if (this.options.query === undefined) {
+      this.options.query = true;
+    }
+  }
+
   setPages() {
     this.pages = [1];
     if (this.pageTotal && this.pageTotal > 1) {
@@ -96,7 +118,7 @@ export class PaginationComponent implements OnChanges {
   }
 
   goPage(pageIndex: number) {
-    if (pageIndex < 1 || pageIndex > this.pages.length) {
+    if (pageIndex < 1) {
       return;
     }
 
@@ -104,7 +126,7 @@ export class PaginationComponent implements OnChanges {
     this.pageIndexChange.emit(pageIndex);
     this.change.emit(pageIndex);
 
-    if (!this.skipQueryChange) {
+    if (this.options.query) {
       let paths = window.location.pathname.split('/');
       paths[0] = '/' + paths[0];
       if (!paths[paths.length - 1]) {
@@ -162,12 +184,7 @@ export class PaginationComponent implements OnChanges {
   }
 
   onGo() {
-    if (
-      !this.goIndex ||
-      this.goIndex < 1 ||
-      (this.goIndex + '').indexOf('.') > -1 ||
-      (this.goIndex - 1) * this.pageCount >= this.pageTotal
-    ) {
+    if (!this.goIndex || this.goIndex < 1 || (this.goIndex + '').indexOf('.') > -1) {
       return;
     }
     this.goPage(+this.goIndex);
