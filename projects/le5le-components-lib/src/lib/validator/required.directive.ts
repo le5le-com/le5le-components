@@ -16,7 +16,7 @@ export class MyRequiredValidator implements Validator {
   @Input() required: boolean;
 
   validate(c: AbstractControl): { [key: string]: any } {
-    if (!c.value || (typeof c.value.trim === 'function' && !c.value.trim())) {
+    if (c.value === null || c.value === undefined || (typeof c.value.trim === 'function' && !c.value.trim())) {
       return { required: true };
     }
   }
