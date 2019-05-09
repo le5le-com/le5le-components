@@ -12,7 +12,7 @@ import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
   ]
 })
 export class SameValidator implements Validator {
-  @Input('uisameTo') uisameTo: string;
+  @Input() uisameTo: string;
 
   validate(c: AbstractControl): { [key: string]: any } {
     if (c.value !== this.uisameTo) {

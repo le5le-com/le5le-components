@@ -15,7 +15,7 @@ import { ValidatorService } from './validator.service';
   ]
 })
 export class PhoneValidator implements Validator {
-  @Input('uiIsPhone') uiIsPhone = 'zh-CN';
+  @Input() uiIsPhone = 'zh-CN';
   constructor(private _service: ValidatorService) {}
 
   validate(c: AbstractControl): { [key: string]: any } {

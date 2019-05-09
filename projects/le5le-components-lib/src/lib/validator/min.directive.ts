@@ -12,10 +12,10 @@ import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
   ]
 })
 export class MinValidator implements Validator {
-  @Input('min') min: number;
+  @Input() uiMin: number;
 
   validate(c: AbstractControl): { [key: string]: any } {
-    if (+c.value < this.min) {
+    if (+c.value < this.uiMin) {
       return { min: true };
     }
   }

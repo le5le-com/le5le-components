@@ -40,7 +40,7 @@ import { ActivatedRoute, Router } from '@angular/router';
             class="input inline"
             style="width: .5rem"
             [(ngModel)]="goIndex"
-            (keyup.enter)="onGo()"
+            (keydown.enter)="onGo()"
             uiIsPositiveInteger
           />
           页
@@ -184,7 +184,12 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   onGo() {
-    if (!this.goIndex || this.goIndex < 1 || (this.goIndex + '').indexOf('.') > -1) {
+    if (
+      !this.goIndex ||
+      this.goIndex < 1 ||
+      (this.goIndex + '').indexOf('.') > -1 ||
+      this.goIndex > this.pages.length
+    ) {
       return;
     }
     this.goPage(+this.goIndex);

@@ -10,7 +10,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         <label class="progress" *ngIf="options.unit==='%'">{{ progress| number:'.0-2' }} {{ options.unit }}</label>
         <label *ngIf="options.showRemainder && value < total">
           <span class="gray mh10">/</span>
-          <span class="remainder">{{ total - value }} {{ options.remainderUnit }}</span>
+          <span class="remainder">{{ total - value | number:'.0-2' }} {{ options.remainderUnit }}</span>
          </label>
       </div>
       <div class="desc" *ngIf="options.customDesc">
