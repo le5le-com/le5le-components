@@ -1,5 +1,5 @@
 import { Directive, Input, Output, EventEmitter } from '@angular/core';
-import { NoticeService } from '../notice';
+import { NoticeService } from '../notice/notice.service';
 
 @Directive({
   selector: '[uiEsc]',

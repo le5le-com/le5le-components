@@ -37,7 +37,7 @@ import { AvatarComponent } from './avatar/avatar.component';
 import { RateComponent } from './rate/rate.component';
 import { EchartsLoaderService } from './echarts/echarts-loader.service';
 import { MaxValidator } from './validator/max.directive';
-import { EscDirective } from './esc';
+import { EscDirective } from './esc/esc.directive';
 
 const MODULES = [
   ImageLazyLoadDirective,
