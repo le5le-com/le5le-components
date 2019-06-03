@@ -11,6 +11,7 @@ import { SameValidator } from './same.directive';
 import { EmailValidator } from './email.directive';
 import { UrlValidator } from './url.directive';
 import { MinValidator } from './min.directive';
+import { MaxValidator } from './max.directive';
 import { RegExpValidator } from './regExp.directive';
 import { MyRequiredValidator } from './required.directive';
 
@@ -26,6 +27,7 @@ import { MyRequiredValidator } from './required.directive';
     EmailValidator,
     UrlValidator,
     MinValidator,
+    MaxValidator,
     RegExpValidator,
     MyRequiredValidator
   ],
@@ -39,6 +41,7 @@ import { MyRequiredValidator } from './required.directive';
     EmailValidator,
     UrlValidator,
     MinValidator,
+    MaxValidator,
     RegExpValidator,
     MyRequiredValidator
   ]

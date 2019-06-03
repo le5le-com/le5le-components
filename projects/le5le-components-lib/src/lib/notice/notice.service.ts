@@ -159,9 +159,9 @@ export class NoticeService {
       if (!this.isDown) {
         return;
       }
-      headerElem.parentElement.style.transform = `translate(${e.clientX - this.isDown.clientX + this.initialPos.x}px, ${e.clientY -
-        this.isDown.clientY +
-        this.initialPos.y}px)`;
+      headerElem.parentElement.style.transform = `translate(${e.clientX -
+        this.isDown.clientX +
+        this.initialPos.x}px, ${e.clientY - this.isDown.clientY + this.initialPos.y}px)`;
     };
     headerElem.onmouseup = () => {
       this.isDown = null;
@@ -243,6 +243,7 @@ export class NoticeService {
     const cancelCallback = event => {
       event.stopPropagation();
       document.body.removeChild(elem);
+      document.onkeydown = null;
       if (options.callback) {
         options.callback(false);
       }
@@ -268,12 +269,21 @@ export class NoticeService {
     const okCallback = event => {
       event.stopPropagation();
       document.body.removeChild(elem);
+      document.onkeydown = null;
       if (options.callback) {
         options.callback(true);
       }
     };
     modalContentElem.appendChild(this.makeFooterElem(elem, okCallback, cancelCallback, options));
     document.body.appendChild(elem);
+
+    document.onkeydown = (event: KeyboardEvent) => {
+      if (event.keyCode !== 27) {
+        return;
+      }
+      event.returnValue = false;
+      cancelCallback(event);
+    };
   }
 
   // noticeService.input({
@@ -371,7 +381,10 @@ export class NoticeService {
   }
 
   validate(inputElem, errorElem, options) {
-    if ((options.required && !inputElem.value) || (options.regExp && !new RegExp(options.regExp).test(inputElem.value))) {
+    if (
+      (options.required && !inputElem.value) ||
+      (options.regExp && !new RegExp(options.regExp).test(inputElem.value))
+    ) {
       inputElem.className = 'input full input-error ng-invalid';
       errorElem.className = 'block mt5 error';
       return false;

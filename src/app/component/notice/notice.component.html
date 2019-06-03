@@ -3,9 +3,25 @@
   <button class="button primary mr10" (click)="onMsgSuccess()">success</button>
   <button class="button warning mr10" (click)="onMsgWarning()">warning</button>
   <button class="button error mr10" (click)="onMsgError()">error</button>
-  <button class="button mr10" (click)="onMsgDialog()">dialog</button>
+  <button class="button mr10" (click)="onMsgDialog()">dialog (notice)</button>
   <button class="button mr10" (click)="onMsgInput()">input</button>
-  <br>
-  <br>
+  <br />
+  <br />
   <button class="button mr10" (click)="onMsgSystem()">system</button>
+  <button class="button mr10" (click)="onDialog()">dialog</button>
+</div>
+
+<div class="modal" *ngIf="showDlg" [(uiEsc)]="showDlg" [confirm]="true">
+  <div class="modal-content">
+    <div class="modal-header pointer" uiDivMove [isHead]="true">
+      <div class="caption">Tip</div>
+      <i class="fr iconfont icon-close" (click)="showDlg = false"></i>
+    </div>
+    <div class="modal-body" style="width: 4rem">
+      This is a dialog!
+    </div>
+    <div class="modal-footer">
+      <button class="button primary" (click)="showDlg = false">Ok</button>
+    </div>
+  </div>
 </div>

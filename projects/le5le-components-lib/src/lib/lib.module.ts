@@ -36,6 +36,8 @@ import { ProgressComponent } from './progress/progress.component';
 import { AvatarComponent } from './avatar/avatar.component';
 import { RateComponent } from './rate/rate.component';
 import { EchartsLoaderService } from './echarts/echarts-loader.service';
+import { MaxValidator } from './validator/max.directive';
+import { EscDirective } from './esc';
 
 const MODULES = [
   ImageLazyLoadDirective,
@@ -49,6 +51,7 @@ const MODULES = [
   EmailValidator,
   UrlValidator,
   MinValidator,
+  MaxValidator,
   RegExpValidator,
   MyRequiredValidator,
   ImageUploadComponent,
@@ -60,6 +63,7 @@ const MODULES = [
   BtnSavingDirective,
   TouchFormDirective,
   DivMoveDirective,
+  EscDirective,
   CalendarComponent,
   TimeComponent,
   TimepickerComponent,

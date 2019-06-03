@@ -8,6 +8,7 @@ import { NoticeService } from 'projects/le5le-components-lib/src/lib';
   styleUrls: ['./notice.component.scss']
 })
 export class ComponentNoticeComponent {
+  showDlg = false;
   constructor() {}
 
   onMsgSystem() {
@@ -48,6 +49,7 @@ export class ComponentNoticeComponent {
       timeout: 200000000
     });
   }
+
   onMsgSuccess() {
     const _noticeService: NoticeService = new NoticeService();
     _noticeService.notice({
@@ -56,6 +58,7 @@ export class ComponentNoticeComponent {
       timeout: 200000000
     });
   }
+
   onMsgWarning() {
     const _noticeService: NoticeService = new NoticeService();
     _noticeService.notice({
@@ -64,6 +67,7 @@ export class ComponentNoticeComponent {
       timeout: 200000000
     });
   }
+
   onMsgError() {
     const _noticeService: NoticeService = new NoticeService();
     _noticeService.notice({
@@ -72,6 +76,7 @@ export class ComponentNoticeComponent {
       timeout: 200000000
     });
   }
+
   onMsgDialog() {
     const _noticeService: NoticeService = new NoticeService();
     _noticeService.dialog({
@@ -80,6 +85,7 @@ export class ComponentNoticeComponent {
       noCancel: true
     });
   }
+
   onMsgInput() {
     const _noticeService: NoticeService = new NoticeService();
     _noticeService.input({
@@ -99,5 +105,9 @@ export class ComponentNoticeComponent {
         });
       }
     });
+  }
+
+  onDialog() {
+    this.showDlg = true;
   }
 }
