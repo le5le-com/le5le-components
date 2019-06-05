@@ -1,0 +1,9 @@
+form {
+  .flex {
+    & > label {
+      display: inline-block;
+      min-width: 0.5rem;
+      line-height: 0.3rem;
+    }
+  }
+}

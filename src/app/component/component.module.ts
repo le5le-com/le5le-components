@@ -16,6 +16,7 @@ import { ComponentCalendarComponent } from './calendar/calendar.component';
 import { ComponentUploadComponent } from './upload/upload.component';
 import { ComponentEditorComponent } from './editor/editor.component';
 import { ComponentPaginationComponent } from './pagination/pagination.component';
+import { ComponentFormComponent } from './form/form.component';
 
 @NgModule({
   imports: [SharedModule, ComponentRoutingModule],
@@ -32,7 +33,8 @@ import { ComponentPaginationComponent } from './pagination/pagination.component'
     ComponentCalendarComponent,
     ComponentUploadComponent,
     ComponentEditorComponent,
-    ComponentPaginationComponent
+    ComponentPaginationComponent,
+    ComponentFormComponent
   ],
   providers: []
 })

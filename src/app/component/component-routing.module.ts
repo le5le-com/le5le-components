@@ -14,6 +14,7 @@ import { ComponentCalendarComponent } from './calendar/calendar.component';
 import { ComponentUploadComponent } from './upload/upload.component';
 import { ComponentEditorComponent } from './editor/editor.component';
 import { ComponentPaginationComponent } from './pagination/pagination.component';
+import { ComponentFormComponent } from './form/form.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -67,6 +68,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'pagination',
         component: ComponentPaginationComponent
+      },
+      {
+        path: 'form',
+        component: ComponentFormComponent
       }
     ]
   }

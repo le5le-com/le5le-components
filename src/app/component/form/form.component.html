@@ -1,0 +1,19 @@
+<form class="panel m20 p20" #myForm="ngForm" (ngSubmit)="onSubmit(myForm.invalid)" [uiTouchForm]="myForm">
+  <div class="flex">
+    <label>Min</label>
+    <input type="number" name="min" class="input" [(ngModel)]="min" [uiMin]="0" required />
+    <label class="gray ml10">最小值0</label>
+  </div>
+  <div class="flex mt10">
+    <label>Max</label>
+    <input type="number" name="max" class="input" [(ngModel)]="max" [uiMax]="100" required />
+    <label class="gray ml10">最大值100</label>
+  </div>
+  <div class="flex  mt10">
+    <label></label>
+    <div>
+      <button class="button primary mr5" [uiBtnSaving]="saving">确定</button>
+      <button class="button" type="button">取消</button>
+    </div>
+  </div>
+</form>

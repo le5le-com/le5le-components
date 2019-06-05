@@ -10,62 +10,97 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {
-  AbstractControl,
-  ControlValueAccessor,
-  NG_VALIDATORS,
-  NG_VALUE_ACCESSOR,
-  Validator
-} from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'ui-select',
   template: `
-    <div class="ui-select input" [class.readonly]="readonly" [class.show-dropdown]="!readonly && showDropdown" (click)="onClick()">
+    <div
+      class="ui-select input"
+      [class.readonly]="readonly"
+      [class.show-dropdown]="!readonly && showDropdown"
+      (click)="onClick()"
+    >
       <div class="flex middle pl10 full" *ngIf="multi">
         <div class="flex wrap full">
           <ng-template ngFor let-item let-i="index" [ngForOf]="selectedItems">
             <div [class.selected]="multi">
-              {{ options.name? item[options.name]: item }}
+              {{ options.name ? item[options.name] : item }}
               <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
             </div>
           </ng-template>
 
-          <input *ngIf="!value || !value.length" [(ngModel)]="inputValue" [placeholder]="placeholder"
-            (keyup)="search$.next($event.target.value)" style="width: 100%;padding-left:0">
+          <input
+            *ngIf="!value || !value.length"
+            [(ngModel)]="inputValue"
+            [placeholder]="placeholder"
+            (keyup)="search$.next($event.target.value)"
+            style="width: 100%;padding-left:0"
+          />
 
-          <input #input *ngIf="value && value.length" [(ngModel)]="inputValue"
-            style="padding:0;flex-grow:1;width:.1rem" (keyup.backspace)="onMultiDel()"
-            (keyup)="search$.next($event.target.value)">
+          <input
+            #input
+            *ngIf="value && value.length"
+            [(ngModel)]="inputValue"
+            style="padding:0;flex-grow:1;width:.1rem"
+            (focus)="lastInputValue = inputValue"
+            (keyup.backspace)="onMultiDel()"
+            (keyup)="lastInputValue = inputValue; search$.next($event.target.value)"
+          />
         </div>
         <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
       </div>
-      <div class="flex middle full" *ngIf="!multi" (click)="clickShowDropdown=-1;showDropdown=true">
-        <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue"
-          (keyup)="search$.next($event.target.value)" (change)="onInputChange()"
-          [readOnly]="readonly || inputReadonly"  (click)="onClickInput($event)">
+      <div class="flex middle full" *ngIf="!multi" (click)="clickShowDropdown = -1; showDropdown = true">
+        <input
+          class="full pl10"
+          [placeholder]="placeholder"
+          [(ngModel)]="inputValue"
+          (keyup)="search$.next($event.target.value)"
+          (change)="onInputChange()"
+          [readOnly]="readonly || inputReadonly"
+          (click)="onClickInput($event)"
+        />
         <i class="iconfont icon-triangle-down right"></i>
       </div>
       <div class="dropdown-list" [class.block]="showDropdown" *ngIf="!readonly">
-        <div class="item" [class.active]="!_value" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
-          (click)="onSelect($event, null)">{{ placeholder || '请选择' }}</div>
+        <div
+          class="item"
+          [class.active]="!_value"
+          *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
+          (click)="onSelect($event, null)"
+        >
+          {{ placeholder || '请选择' }}
+        </div>
         <div class="item" *ngIf="loading">
           <span class="iconfont icon-loading icon-spin"></span>
           Loading...
         </div>
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-          <div class="item flex middle" [class.active]="item.active" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)"
-            [title]="item.tooltip || ''">
-            <label class="full">{{ options.name? item[options.name]: item }}</label>
+          <div
+            class="item flex middle"
+            [class.active]="item.active"
+            *ngIf="!multi || !isChecked(item)"
+            (click)="onSelect($event, item)"
+            [title]="item.tooltip || ''"
+          >
+            <label class="full">{{ options.name ? item[options.name] : item }}</label>
             <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
           </div>
         </ng-template>
-        <div class="item gray" *ngIf="options.noDefaultOption && !loading &&
-          (!options.list || !options.list.length
-            || (multi && value && options.list && value.length === options.list.length)
-          )">暂无下拉选项</div>
+        <div
+          class="item gray"
+          *ngIf="
+            options.noDefaultOption &&
+            !loading &&
+            (!options.list ||
+              !options.list.length ||
+              (multi && value && options.list && value.length === options.list.length))
+          "
+        >
+          暂无下拉选项
+        </div>
       </div>
     </div>
   `,
@@ -88,8 +123,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./select.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SelectComponent
-  implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
   // autocomplete 表示自动完成；noDefaultOption 表示不要“请选择”
   @Input()
@@ -124,6 +158,7 @@ export class SelectComponent
   showDropdown = false;
 
   // 单选显示数据
+  lastInputValue: string;
   inputValue: string;
   // 单选输入框只读属性
   inputReadonly = true;
@@ -196,9 +231,7 @@ export class SelectComponent
             }
           }
           if (item) {
-            this.inputValue = this.options.name
-              ? item[this.options.name]
-              : item;
+            this.inputValue = this.options.name ? item[this.options.name] : item;
           }
         }
       } else if (v && v.length && this.options.id && this.options.list) {
@@ -276,12 +309,7 @@ export class SelectComponent
         this._value = '';
       }
 
-      if (
-        item &&
-        (this._value !== undefined ||
-          this._value !== null ||
-          this._value !== '')
-      ) {
+      if (item && (this._value !== undefined || this._value !== null || this._value !== '')) {
         this.inputValue = this.options.name ? item[this.options.name] : item;
       } else {
         this.inputValue = '';
@@ -328,10 +356,7 @@ export class SelectComponent
 
   onClickInput(event: any) {
     this.clickShowDropdown = -1;
-    if (
-      (this.options.autocomplete && this.options.list.length) ||
-      this.inputReadonly
-    ) {
+    if ((this.options.autocomplete && this.options.list.length) || this.inputReadonly) {
       this.setDropdown();
     }
   }
@@ -341,10 +366,7 @@ export class SelectComponent
       let pos = 0;
       let i = 0;
       for (const item of this.options.list) {
-        if (
-          this._value !== undefined &&
-          this._value === item[this.options.id]
-        ) {
+        if (this._value !== undefined && this._value === item[this.options.id]) {
           item.active = true;
           pos = i;
         } else {
@@ -378,7 +400,7 @@ export class SelectComponent
   }
 
   onMultiDel() {
-    if (!this._value || !this._value.length) {
+    if (this.lastInputValue || !this._value || !this._value.length) {
       return;
     }
 

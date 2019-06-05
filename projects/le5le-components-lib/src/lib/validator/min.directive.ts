@@ -16,7 +16,8 @@ export class MinValidator implements Validator {
 
   validate(c: AbstractControl): { [key: string]: any } {
     if (+c.value < this.uiMin) {
-      return { min: true };
+      c.patchValue(this.uiMin);
+      return;
     }
   }
 }

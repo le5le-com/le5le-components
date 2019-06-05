@@ -16,7 +16,8 @@ export class MaxValidator implements Validator {
 
   validate(c: AbstractControl): { [key: string]: any } {
     if (+c.value > this.uiMax) {
-      return { max: true };
+      c.patchValue(this.uiMax);
+      return;
     }
   }
 }
