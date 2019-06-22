@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NoticeService } from 'projects/le5le-components-lib/src/lib';
+import { NoticeService } from 'le5le-components/notice';
 
 @Component({
   selector: 'app-component-notice',
@@ -12,8 +12,8 @@ export class ComponentNoticeComponent {
   constructor() {}
 
   onMsgSystem() {
-    const _noticeService: NoticeService = new NoticeService();
-    _noticeService.notice({
+    const noticeService: NoticeService = new NoticeService();
+    noticeService.notice({
       theme: 'system-notice',
       body: '乐吾乐 - angular UI 组件库。系统system消息。',
       timeout: 200000000
@@ -21,14 +21,14 @@ export class ComponentNoticeComponent {
   }
 
   onMsgDefault() {
-    const _noticeService: NoticeService = new NoticeService();
-    _noticeService.notice({
+    const noticeService: NoticeService = new NoticeService();
+    noticeService.notice({
       body: '乐吾乐 - angular UI 组件库。缺省样式notice消息框。',
       buttons: [
         {
           text: '取消',
           cb: () => {
-            _noticeService.notice({
+            noticeService.notice({
               theme: 'warning',
               body: '点击了calcel!',
               timeout: 2000
@@ -38,7 +38,7 @@ export class ComponentNoticeComponent {
         {
           text: '确定',
           cb: () => {
-            _noticeService.notice({
+            noticeService.notice({
               theme: 'success',
               body: '点击了OK!',
               timeout: 2000
@@ -51,8 +51,8 @@ export class ComponentNoticeComponent {
   }
 
   onMsgSuccess() {
-    const _noticeService: NoticeService = new NoticeService();
-    _noticeService.notice({
+    const noticeService: NoticeService = new NoticeService();
+    noticeService.notice({
       theme: 'success',
       body: 'success!',
       timeout: 200000000
@@ -60,8 +60,8 @@ export class ComponentNoticeComponent {
   }
 
   onMsgWarning() {
-    const _noticeService: NoticeService = new NoticeService();
-    _noticeService.notice({
+    const noticeService: NoticeService = new NoticeService();
+    noticeService.notice({
       theme: 'warning',
       body: 'warning!',
       timeout: 200000000
@@ -69,8 +69,8 @@ export class ComponentNoticeComponent {
   }
 
   onMsgError() {
-    const _noticeService: NoticeService = new NoticeService();
-    _noticeService.notice({
+    const noticeService: NoticeService = new NoticeService();
+    noticeService.notice({
       theme: 'error',
       body: 'error!',
       timeout: 200000000
@@ -78,8 +78,8 @@ export class ComponentNoticeComponent {
   }
 
   onMsgDialog() {
-    const _noticeService: NoticeService = new NoticeService();
-    _noticeService.dialog({
+    const noticeService: NoticeService = new NoticeService();
+    noticeService.dialog({
       title: '关于',
       body: '乐吾乐 - angular UI 组件库',
       noCancel: true
@@ -87,8 +87,8 @@ export class ComponentNoticeComponent {
   }
 
   onMsgInput() {
-    const _noticeService: NoticeService = new NoticeService();
-    _noticeService.input({
+    const noticeService: NoticeService = new NoticeService();
+    noticeService.input({
       title: '名称',
       label: 'hello（规则：/^hello$/）',
       theme: 'default',
@@ -98,7 +98,7 @@ export class ComponentNoticeComponent {
       regExp: /^hello$/,
       type: 'text',
       callback: (ret: string) => {
-        _noticeService.dialog({
+        noticeService.dialog({
           title: '你刚才的输入',
           body: ret,
           noCancel: true

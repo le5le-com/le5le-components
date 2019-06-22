@@ -1,8 +1,8 @@
 {
   "name": "le5le-components",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0"
+    "@angular/common": "^8.0.1",
+    "@angular/core": "^8.0.1"
   }
 }

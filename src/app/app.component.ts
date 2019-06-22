@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,16 +7,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(
-    private _router: Router,
-    private _activateRoute: ActivatedRoute
-  ) {}
+  constructor(private router: Router) {}
 
   isActive(strUrl: string) {
     if (!strUrl || strUrl === '/') {
-      return !this._router.url || this._router.url === '/';
+      return !this.router.url || this.router.url === '/';
     } else {
-      return this._router.url.indexOf(strUrl) === 0;
+      return this.router.url.indexOf(strUrl) === 0;
     }
   }
 }
