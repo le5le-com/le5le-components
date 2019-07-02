@@ -1,0 +1,87 @@
+<div
+  class="ui-select input"
+  [class.readonly]="readonly"
+  [class.show-dropdown]="!readonly && showDropdown"
+  (click)="onClick()"
+>
+  <div class="flex middle pl10 full" *ngIf="multi">
+    <div class="flex wrap full">
+      <ng-template ngFor let-item let-i="index" [ngForOf]="selectedItems">
+        <div [class.selected]="multi">
+          {{ options.name ? item[options.name] : item }}
+          <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
+        </div>
+      </ng-template>
+
+      <span *ngIf="!readonly">
+        <input
+          *ngIf="!value || !value.length"
+          [(ngModel)]="inputValue"
+          [placeholder]="placeholder"
+          (keyup)="search$.next($event.target.value)"
+          style="width: 100%;padding-left:0"
+        />
+
+        <input
+          #input
+          *ngIf="value && value.length"
+          [(ngModel)]="inputValue"
+          style="padding:0;flex-grow:1;width:.1rem"
+          (focus)="lastInputValue = inputValue"
+          (keyup.backspace)="onMultiDel()"
+          (keyup)="lastInputValue = inputValue; search$.next($event.target.value)"
+        />
+      </span>
+    </div>
+    <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
+  </div>
+  <div class="flex middle full" *ngIf="!multi" (click)="clickShowDropdown = -1; showDropdown = true">
+    <input
+      class="full pl10"
+      [placeholder]="placeholder"
+      [(ngModel)]="inputValue"
+      (keyup)="search$.next($event.target.value)"
+      [readOnly]="readonly || inputReadonly"
+      (click)="onClickInput($event)"
+    />
+    <i class="iconfont icon-triangle-down right"></i>
+  </div>
+  <div class="dropdown-list" [class.block]="showDropdown" *ngIf="!readonly">
+    <div
+      class="item"
+      [class.active]="!_value"
+      *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
+      (click)="onSelect($event, null)"
+    >
+      {{ placeholder || '请选择' }}
+    </div>
+    <div class="item" *ngIf="loading">
+      <span class="iconfont icon-loading icon-spin"></span>
+      Loading...
+    </div>
+    <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
+      <div
+        class="item flex middle"
+        [class.active]="item.active"
+        *ngIf="!multi || !isChecked(item)"
+        (click)="onSelect($event, item)"
+        [title]="item.tooltip || ''"
+      >
+        <label class="full">{{ options.name ? item[options.name] : item }}</label>
+        <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
+      </div>
+    </ng-template>
+    <div
+      class="item gray"
+      *ngIf="
+        options.noDefaultOption &&
+        !loading &&
+        (!options.list ||
+          !options.list.length ||
+          (multi && value && options.list && value.length === options.list.length))
+      "
+    >
+      暂无下拉选项
+    </div>
+  </div>
+</div>

@@ -16,96 +16,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'ui-select',
-  template: `
-    <div
-      class="ui-select input"
-      [class.readonly]="readonly"
-      [class.show-dropdown]="!readonly && showDropdown"
-      (click)="onClick()"
-    >
-      <div class="flex middle pl10 full" *ngIf="multi">
-        <div class="flex wrap full">
-          <ng-template ngFor let-item let-i="index" [ngForOf]="selectedItems">
-            <div [class.selected]="multi">
-              {{ options.name ? item[options.name] : item }}
-              <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
-            </div>
-          </ng-template>
-
-          <span *ngIf="!readonly">
-            <input
-              *ngIf="!value || !value.length"
-              [(ngModel)]="inputValue"
-              [placeholder]="placeholder"
-              (keyup)="search$.next($event.target.value)"
-              style="width: 100%;padding-left:0"
-            />
-
-            <input
-              #input
-              *ngIf="value && value.length"
-              [(ngModel)]="inputValue"
-              style="padding:0;flex-grow:1;width:.1rem"
-              (focus)="lastInputValue = inputValue"
-              (keyup.backspace)="onMultiDel()"
-              (keyup)="lastInputValue = inputValue; search$.next($event.target.value)"
-            />
-          </span>
-        </div>
-        <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
-      </div>
-      <div class="flex middle full" *ngIf="!multi" (click)="clickShowDropdown = -1; showDropdown = true">
-        <input
-          class="full pl10"
-          [placeholder]="placeholder"
-          [(ngModel)]="inputValue"
-          (keyup)="search$.next($event.target.value)"
-          (change)="onInputChange()"
-          [readOnly]="readonly || inputReadonly"
-          (click)="onClickInput($event)"
-        />
-        <i class="iconfont icon-triangle-down right"></i>
-      </div>
-      <div class="dropdown-list" [class.block]="showDropdown" *ngIf="!readonly">
-        <div
-          class="item"
-          [class.active]="!_value"
-          *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
-          (click)="onSelect($event, null)"
-        >
-          {{ placeholder || '请选择' }}
-        </div>
-        <div class="item" *ngIf="loading">
-          <span class="iconfont icon-loading icon-spin"></span>
-          Loading...
-        </div>
-        <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-          <div
-            class="item flex middle"
-            [class.active]="item.active"
-            *ngIf="!multi || !isChecked(item)"
-            (click)="onSelect($event, item)"
-            [title]="item.tooltip || ''"
-          >
-            <label class="full">{{ options.name ? item[options.name] : item }}</label>
-            <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
-          </div>
-        </ng-template>
-        <div
-          class="item gray"
-          *ngIf="
-            options.noDefaultOption &&
-            !loading &&
-            (!options.list ||
-              !options.list.length ||
-              (multi && value && options.list && value.length === options.list.length))
-          "
-        >
-          暂无下拉选项
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: 'select.component.html',
   // tslint:disable-next-line:no-host-metadata-property
   host: {
     '(document:click)': 'onClickDocument($event)'
@@ -128,6 +39,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
   // autocomplete 表示自动完成；noDefaultOption 表示不要“请选择”
+  // 当autocomplete时，noAutocompleteList 表示不需要自动处理下拉选项。比如从网络读取。
   @Input()
   options: any = { id: 'id', name: 'name', list: [] };
 
@@ -153,7 +65,12 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
   // ngModeld的实际值
   // tslint:disable-next-line:variable-name
   _value: any;
+
+  // 多选值
   selectedItems: any[] = [];
+
+  // 下来选项备份，搜索用
+  list: any[] = [];
 
   // 下拉选项显示控制
   clickShowDropdown = -1;
@@ -182,7 +99,7 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
     this.showDropdown = !this.showDropdown;
   }
 
-  constructor(private _elemRef: ElementRef) {}
+  constructor(private elemRef: ElementRef) {}
 
   ngOnInit() {
     if (this.multi) {
@@ -191,6 +108,8 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
     } else if (this.options.autocomplete) {
       this.inputReadonly = false;
     }
+
+    this.list = this.options.list || [];
 
     if (!this.placeholder) {
       this.placeholder = this.multi ? '请选择 [可多选]' : '请选择';
@@ -202,6 +121,14 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
         distinctUntilChanged()
       )
       .subscribe(text => {
+        if (this.options.name && !this.options.noAutocompleteList) {
+          this.options.list = [];
+          for (const item of this.list) {
+            if (item[this.options.name].indexOf(text) > -1) {
+              this.options.list.push(item);
+            }
+          }
+        }
         this.autoChange.emit(text);
       });
   }
@@ -326,16 +253,6 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
     this.change.emit(item);
   }
 
-  onInputChange() {
-    if (this.options.onlySelect) {
-      return;
-    }
-
-    this.value = this.inputValue;
-    this.valueChange(this.inputValue);
-    this.change.emit(this.inputValue);
-  }
-
   onDel(item: any, index: number) {
     for (let i = 0; i < this._value.length; ++i) {
       if (this.options.id) {
@@ -378,8 +295,8 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
         i++;
       }
       const scrollElem =
-        this._elemRef.nativeElement.querySelector('.dropdown') ||
-        this._elemRef.nativeElement.querySelector('.dropdown-list');
+        this.elemRef.nativeElement.querySelector('.dropdown') ||
+        this.elemRef.nativeElement.querySelector('.dropdown-list');
       if (scrollElem) {
         scrollElem.scrollTop = pos * 28;
       }
@@ -388,11 +305,15 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
   }
 
   onClickDocument(event) {
-    if (!this._elemRef.nativeElement.contains(event.target)) {
+    if (!this.elemRef.nativeElement.contains(event.target)) {
       if (this.clickShowDropdown !== 1) {
         this.showDropdown = false;
       }
       this.clickShowDropdown = 0;
+      this.inputValue = '';
+      if (!this.options.noAutocompleteList) {
+        this.options.list = this.list;
+      }
     }
   }
 

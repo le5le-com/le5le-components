@@ -36,4 +36,8 @@ export class ComponentSelectComponent {
   onChange(data) {
     console.log('select change:', data);
   }
+
+  onInput(text: string) {
+    console.log('input:', text);
+  }
 }

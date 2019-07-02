@@ -1,0 +1,10 @@
+.flex {
+  > label {
+    display: inline-block;
+    width: 0.9rem;
+  }
+  > ui-select {
+    display: block;
+    width: 2rem;
+  }
+}

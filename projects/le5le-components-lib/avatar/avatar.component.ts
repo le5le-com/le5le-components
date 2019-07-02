@@ -1,17 +1,10 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  OnChanges,
-  ViewEncapsulation,
-  SimpleChange
-} from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewEncapsulation, SimpleChange } from '@angular/core';
 
 @Component({
   selector: 'ui-avatar',
   template: `
     <div class="ui-avatar" [ngStyle]="getStyle()">
-      <img *ngIf="img" [src]="img">
+      <img *ngIf="img" [src]="img" />
       <span *ngIf="!img">{{ char }}</span>
     </div>
   `,
@@ -23,7 +16,7 @@ export class AvatarComponent implements OnInit, OnChanges {
   @Input() letters = '';
   @Input() img = '';
 
-  colors = [
+  @Input() colors = [
     '#673AB7',
     '#9C27B0',
     '#2196f3',
@@ -53,7 +46,7 @@ export class AvatarComponent implements OnInit, OnChanges {
     for (const item of this.letters) {
       num += item.charCodeAt(0);
     }
-    this.color = this.colors[num % 10];
+    this.color = this.colors[num % this.colors.length];
   }
 
   getStyle() {
