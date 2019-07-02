@@ -306,13 +306,16 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
 
   onClickDocument(event) {
     if (!this.elemRef.nativeElement.contains(event.target)) {
+      if (!this.options.noAutocompleteList) {
+        this.options.list = this.list;
+      }
+
       if (this.clickShowDropdown !== 1) {
         this.showDropdown = false;
       }
       this.clickShowDropdown = 0;
-      this.inputValue = '';
-      if (!this.options.noAutocompleteList) {
-        this.options.list = this.list;
+      if (this.multi || !this._value) {
+        this.inputValue = '';
       }
     }
   }

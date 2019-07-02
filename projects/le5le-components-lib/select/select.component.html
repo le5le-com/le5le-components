@@ -13,7 +13,7 @@
         </div>
       </ng-template>
 
-      <span *ngIf="!readonly">
+      <span *ngIf="!readonly" style="flex: 1">
         <input
           *ngIf="!value || !value.length"
           [(ngModel)]="inputValue"
@@ -26,7 +26,7 @@
           #input
           *ngIf="value && value.length"
           [(ngModel)]="inputValue"
-          style="padding:0;flex-grow:1;width:.1rem"
+          style="padding:0;flex-grow:1;width:100%"
           (focus)="lastInputValue = inputValue"
           (keyup.backspace)="onMultiDel()"
           (keyup)="lastInputValue = inputValue; search$.next($event.target.value)"
@@ -74,7 +74,7 @@
     <div
       class="item gray"
       *ngIf="
-        options.noDefaultOption &&
+        (options.noDefaultOption || options.autocomplete) &&
         !loading &&
         (!options.list ||
           !options.list.length ||
