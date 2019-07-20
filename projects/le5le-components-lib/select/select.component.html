@@ -37,7 +37,7 @@
   </div>
   <div class="flex middle full" *ngIf="!multi" (click)="clickShowDropdown = -1; showDropdown = true">
     <input
-      class="full pl10"
+      class="full"
       [placeholder]="placeholder"
       [(ngModel)]="inputValue"
       (keyup)="search$.next($event.target.value)"
