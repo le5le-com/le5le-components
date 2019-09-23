@@ -48,3 +48,11 @@
 .pagination .buttons > a:hover {
   background-color: #f3f3f3;
 }
+
+.pagination .buttons > a.disabled {
+  color: #c4c9cd !important;
+}
+
+.pagination .buttons > a.disabled:hover {
+  background-color: #fff;
+}

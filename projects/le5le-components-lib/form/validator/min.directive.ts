@@ -15,8 +15,12 @@ export class MinValidator implements Validator {
   @Input() uiMin: number;
   validate(c: AbstractControl): { [key: string]: any } {
     if (+c.value < this.uiMin) {
-      c.patchValue(this.uiMin);
-      return;
+      if (c.value && c.value.length) {
+        c.patchValue(this.uiMin);
+        return;
+      }
+
+      return { min: true };
     }
   }
 }

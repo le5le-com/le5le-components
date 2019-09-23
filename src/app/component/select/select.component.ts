@@ -12,23 +12,28 @@ export class ComponentSelectComponent {
   options = [
     {
       id: '1',
-      name: '选项一'
+      name: '选项一',
+      desc: '关于选项一的描述'
     },
     {
       id: '2',
-      name: '选项二'
+      name: '选项二',
+      desc: '关于选项二的描述'
     },
     {
       id: '3',
-      name: '选项三'
+      name: '选项三',
+      desc: '关于选项三的描述'
     },
     {
       id: '4',
-      name: '选项四'
+      name: '选项四',
+      desc: '关于选项四的描述'
     },
     {
       id: '5',
-      name: '选项五'
+      name: '选项五',
+      desc: '关于选项五的描述'
     }
   ];
   constructor() {}

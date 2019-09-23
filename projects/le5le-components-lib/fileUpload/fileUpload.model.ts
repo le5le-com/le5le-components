@@ -18,6 +18,7 @@ export class FileItem {
 
 export class UploadParam {
   field = 'file';
+  fields: any;
   headers: any = {};
   maxCount = 1;
   maxLength: number = 2 * 1024 * 1024;

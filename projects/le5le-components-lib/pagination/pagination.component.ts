@@ -15,13 +15,17 @@ import { ActivatedRoute, Router } from '@angular/router';
   template: `
     <div class="pagination" *ngIf="pages.length > 1">
       <div class="buttons">
-        <a (click)="goPage(pageIndex - 1)"><i class="iconfont icon-angle-left"></i></a>
+        <a [class.disabled]="pageIndex === 1" (click)="goPage(pageIndex - 1)"
+          ><i class="iconfont icon-angle-left"></i
+        ></a>
         <ng-template ngFor let-item let-i="index" [ngForOf]="pages">
           <a *ngIf="item === 1 && !canShow(1)" (click)="goPage(pageIndex - 4)">...</a>
           <a *ngIf="canShow(item)" (click)="goPage(item)" [class.active]="pageIndex === item">{{ item }}</a>
         </ng-template>
         <a *ngIf="pages.length > 10 && pages.length - pageIndex > 4" (click)="goPage(pageIndex + 4)">...</a>
-        <a (click)="goPage(pageIndex + 1)"><i class="iconfont icon-angle-right"></i></a>
+        <a [class.disabled]="pageIndex === pages.length" (click)="goPage(pageIndex + 1)"
+          ><i class="iconfont icon-angle-right"></i
+        ></a>
       </div>
       <div class="full">
         <ui-select
@@ -58,6 +62,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Input() pageCount = 1;
   @Output() pageCountChange = new EventEmitter<any>();
   @Input() pageTotal = 1;
+  // tslint:disable-next-line:no-output-native
   @Output() change = new EventEmitter<any>();
   @Input() options = {
     pageCount: true,
@@ -92,7 +97,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     ],
     noDefaultOption: true
   };
-  constructor(private _router: Router, private _activateRoute: ActivatedRoute) {}
+  constructor(private router: Router, private activateRoute: ActivatedRoute) {}
 
   ngOnInit() {
     if (this.options.pageCount === undefined) {
@@ -118,7 +123,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   goPage(pageIndex: number) {
-    if (pageIndex < 1) {
+    if (pageIndex < 1 || pageIndex > this.pages.length) {
       return;
     }
 
@@ -134,12 +139,12 @@ export class PaginationComponent implements OnInit, OnChanges {
       }
       const queryParams: any = {};
       // tslint:disable-next-line:forin
-      for (const key in this._activateRoute.snapshot.queryParams) {
-        queryParams[key] = this._activateRoute.snapshot.queryParams[key];
+      for (const key in this.activateRoute.snapshot.queryParams) {
+        queryParams[key] = this.activateRoute.snapshot.queryParams[key];
       }
-      queryParams['pageIndex'] = this.pageIndex;
-      queryParams['pageCount'] = this.pageCount;
-      this._router.navigate(paths, { queryParams });
+      queryParams.pageIndex = this.pageIndex;
+      queryParams.pageCount = this.pageCount;
+      this.router.navigate(paths, { queryParams });
     }
   }
 

@@ -249,7 +249,7 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
     }
     this.valueChange(this._value);
     this.touch();
-    // return item of options.list
+
     this.change.emit(item);
   }
 

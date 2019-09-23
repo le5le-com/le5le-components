@@ -258,62 +258,62 @@ export let toolbarItems: EditorToolbarItem[] = [
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#c00',
-        style: { 'background-color': '#c00' }
+        val: '#ff4d4f',
+        style: { 'background-color': '#ff4d4f' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#f00',
-        style: { 'background-color': '#f00' }
+        val: '#fa541c',
+        style: { 'background-color': '#fa541c' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#ffc000',
-        style: { 'background-color': '#ffc000' }
+        val: '#fa8c16',
+        style: { 'background-color': '#fa8c16' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#ff0',
-        style: { 'background-color': '#ff0' }
+        val: '#faad14',
+        style: { 'background-color': '#faad14' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#92d050',
-        style: { 'background-color': '#92d050' }
+        val: '#eb2f96',
+        style: { 'background-color': '#eb2f96' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#00b050',
-        style: { 'background-color': '#00b050' }
+        val: '#7cb305',
+        style: { 'background-color': '#7cb305' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#00b0f0',
-        style: { 'background-color': '#00b0f0' }
+        val: '#389e0d',
+        style: { 'background-color': '#389e0d' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#0070c0',
-        style: { 'background-color': '#0070c0' }
+        val: '#08979c',
+        style: { 'background-color': '#08979c' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#002060',
-        style: { 'background-color': '#002060' }
+        val: '#096dd9',
+        style: { 'background-color': '#096dd9' }
       },
       {
         class: 'color-button',
         command: 'foreColor',
-        val: '#7030a0',
-        style: { 'background-color': '#7030a0' }
+        val: '#1d39c4',
+        style: { 'background-color': '#1d39c4' }
       },
       {
         class: 'color-button',
@@ -337,62 +337,62 @@ export let toolbarItems: EditorToolbarItem[] = [
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#c00',
-        style: { 'background-color': '#c00' }
+        val: '#ff4d4f',
+        style: { 'background-color': '#ff4d4f' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#f00',
-        style: { 'background-color': '#f00' }
+        val: '#fa541c',
+        style: { 'background-color': '#fa541c' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#ffc000',
-        style: { 'background-color': '#ffc000' }
+        val: '#fa8c16',
+        style: { 'background-color': '#fa8c16' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#ff0',
-        style: { 'background-color': '#ff0' }
+        val: '#faad14',
+        style: { 'background-color': '#faad14' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#92d050',
-        style: { 'background-color': '#92d050' }
+        val: '#eb2f96',
+        style: { 'background-color': '#eb2f96' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#00b050',
-        style: { 'background-color': '#00b050' }
+        val: '#7cb305',
+        style: { 'background-color': '#7cb305' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#00b0f0',
-        style: { 'background-color': '#00b0f0' }
+        val: '#389e0d',
+        style: { 'background-color': '#389e0d' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#0070c0',
-        style: { 'background-color': '#0070c0' }
+        val: '#08979c',
+        style: { 'background-color': '#08979c' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#002060',
-        style: { 'background-color': '#002060' }
+        val: '#096dd9',
+        style: { 'background-color': '#096dd9' }
       },
       {
         class: 'color-button',
         command: 'backColor',
-        val: '#7030a0',
-        style: { 'background-color': '#7030a0' }
+        val: '#1d39c4',
+        style: { 'background-color': '#1d39c4' }
       },
       {
         class: 'color-button',

@@ -120,6 +120,11 @@
     },
     "le5le-components-lib": {
       "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "projects/le5le-components-lib",
       "sourceRoot": "projects/le5le-components-lib",
       "prefix": "ui",

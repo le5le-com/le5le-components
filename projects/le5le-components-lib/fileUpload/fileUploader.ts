@@ -75,6 +75,12 @@ export class FileUploader {
     const xhr = new XMLHttpRequest();
     const form = new FormData();
     form.append(this.params.field, fileItem.file, fileItem.file.name);
+    if (this.params.fields) {
+      // tslint:disable-next-line:forin
+      for (const k in this.params.fields) {
+        form.append(k, this.params.fields[k]);
+      }
+    }
 
     xhr.upload.onprogress = event => {
       fileItem.progress = Math.round(event.lengthComputable ? (event.loaded * 100) / event.total : 0);

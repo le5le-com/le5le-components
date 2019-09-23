@@ -19,6 +19,7 @@
           [(ngModel)]="inputValue"
           [placeholder]="placeholder"
           (keyup)="search$.next($event.target.value)"
+          (change)="$event.stopPropagation()"
           style="width: 100%;padding-left:0"
         />
 
@@ -30,6 +31,7 @@
           (focus)="lastInputValue = inputValue"
           (keyup.backspace)="onMultiDel()"
           (keyup)="lastInputValue = inputValue; search$.next($event.target.value)"
+          (change)="$event.stopPropagation()"
         />
       </span>
     </div>
@@ -43,6 +45,7 @@
       (keyup)="search$.next($event.target.value)"
       [readOnly]="readonly || inputReadonly"
       (click)="onClickInput($event)"
+      (change)="$event.stopPropagation()"
     />
     <i class="iconfont icon-triangle-down right"></i>
   </div>
@@ -61,14 +64,17 @@
     </div>
     <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
       <div
-        class="item flex middle"
+        class="item "
         [class.active]="item.active"
         *ngIf="!multi || !isChecked(item)"
         (click)="onSelect($event, item)"
         [title]="item.tooltip || ''"
       >
-        <label class="full">{{ options.name ? item[options.name] : item }}</label>
-        <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
+        <div class="flex middle">
+          <span class="full">{{ options.name ? item[options.name] : item }}</span>
+          <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
+        </div>
+        <div class="desc line one" *ngIf="options.desc">{{ item[options.desc] || '无描述' }}</div>
       </div>
     </ng-template>
     <div

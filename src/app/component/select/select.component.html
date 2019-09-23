@@ -12,7 +12,7 @@
   <label class="mr10">单选（可搜索）</label>
   <ui-select
     [(ngModel)]="single"
-    [options]="{ id: 'id', name: 'name', list: options, autocomplete: true }"
+    [options]="{ id: 'id', name: 'name', desc: 'desc', list: options, autocomplete: true }"
     [multi]="false"
     (change)="onChange($event)"
     (autoChange)="onInput($event)"

@@ -68,6 +68,12 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     if (this.options.accept.indexOf('image/') > -1) {
       params.exts = 'png,bmp,jpeg,jpg,gif,svg';
     }
+    if (this.options.field) {
+      params.field = this.options.field;
+    }
+    if (this.options.fields) {
+      params.fields = this.options.fields;
+    }
     if (this.options.maxLength) {
       params.maxLength = this.options.maxLength;
     }

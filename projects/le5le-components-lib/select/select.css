@@ -50,7 +50,7 @@ ui-select.full .ui-select {
   padding: 0.02rem 0.1rem;
   margin: 0 !important;
   white-space: nowrap;
-  cursor: default;
+  cursor: pointer;
 }
 
 .ui-select .dropdown-list .item.active {
@@ -101,7 +101,19 @@ ui-select.full .ui-select {
   cursor: default;
 }
 
+.ui-select .dropdown-list .item .desc {
+  font-size: 0.12rem;
+  color: #ccc;
+  line-height: 1;
+  margin-bottom: 0.1rem;
+}
+
 .ui-select .dropdown-list .item:hover {
   background-color: #fff !important;
   color: #26bbf0 !important;
+}
+
+.ui-select .dropdown-list .item.gray:hover {
+  background-color: #fff !important;
+  color: #c4c9cd !important;
 }

@@ -228,6 +228,7 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getTitle(): string {
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.editor.childNodes.length; i++) {
       if (this.editor.childNodes[i].nodeName && this.editor.childNodes[i].nodeName.toLowerCase() === 'h1') {
         this.title = (this.editor.childNodes[i] as HTMLElement).innerHTML;
