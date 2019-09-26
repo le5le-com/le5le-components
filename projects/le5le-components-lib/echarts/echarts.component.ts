@@ -8,7 +8,8 @@ import {
   ElementRef,
   NgZone,
   SimpleChange,
-  ViewEncapsulation
+  ViewEncapsulation,
+  AfterViewInit
 } from '@angular/core';
 
 import { EchartsLoaderService } from './echarts-loader.service';
@@ -23,7 +24,7 @@ declare var echarts: any;
   styleUrls: ['./echarts.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class EchartsComponent implements OnInit, OnChanges, OnDestroy {
+export class EchartsComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Input() options: any = {};
   @Input() initOpt: any = {};
   @Input() theme: any = 'default';
@@ -36,7 +37,7 @@ export class EchartsComponent implements OnInit, OnChanges, OnDestroy {
     this.onResize();
   }
 
-  @ViewChild('echarts', { static: true }) echartsElem: ElementRef;
+  @ViewChild('echarts', { static: false }) echartsElem: ElementRef;
 
   private chart: any;
 
@@ -44,7 +45,9 @@ export class EchartsComponent implements OnInit, OnChanges, OnDestroy {
     this.loadService.load();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngAfterViewInit() {
     this.loadService.loaded.subscribe(ret => {
       if (ret) {
         this.ngZone.runOutsideAngular(() => {

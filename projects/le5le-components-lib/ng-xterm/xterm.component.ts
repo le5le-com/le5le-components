@@ -1,4 +1,13 @@
-import { OnInit, OnDestroy, Component, Input, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import {
+  OnInit,
+  OnDestroy,
+  Component,
+  Input,
+  ViewChild,
+  ElementRef,
+  ViewEncapsulation,
+  AfterViewInit
+} from '@angular/core';
 
 import { Terminal } from 'xterm';
 import { fit } from 'xterm/lib/addons/fit/fit';
@@ -12,7 +21,7 @@ import { attach, detach } from 'xterm/lib/addons/attach/attach';
   styleUrls: ['./xterm.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class XTermComponent implements OnInit, OnDestroy {
+export class XTermComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   socketUrl: string;
   @Input()
@@ -43,7 +52,9 @@ export class XTermComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngAfterViewInit() {
     this.xterm = new Terminal(this.options.config);
     this.xterm.setOption('fontSize', '14');
     this.xterm.open(this.terminalHost.nativeElement);
@@ -85,7 +96,7 @@ export class XTermComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.socket) {
-      detach(this.xterm, this.socket);
+      // detach(this.xterm, this.socket);
       this.socket.close();
     }
   }

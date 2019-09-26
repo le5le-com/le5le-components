@@ -8,7 +8,8 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  ViewEncapsulation
+  ViewEncapsulation,
+  AfterViewInit
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 import { MonacoEditorLoaderService } from './monaco-loader.service';
@@ -35,7 +36,7 @@ declare const monaco: any;
   styleUrls: ['./code.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator, AfterViewInit {
   @Input() required = false;
   @Input() options: any = { language: 'ini' };
 
@@ -49,7 +50,7 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
   }
 
   editor: any;
-  @ViewChild('editor', { static: true }) editorContent: ElementRef;
+  @ViewChild('editor', { static: false }) editorContent: ElementRef;
 
   // ngModeld的实际值
   // tslint:disable-next-line:variable-name
@@ -69,7 +70,9 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
     }
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngAfterViewInit() {
     this.service.loaded.subscribe(ret => {
       if (ret) {
         this.initMonaco();

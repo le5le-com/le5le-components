@@ -33,11 +33,11 @@ export class EchartsLoaderService {
     (window as any).echartsLoad = LoadStatus.Loading;
     const loaderScript = document.createElement('script');
     loaderScript.type = 'text/javascript';
-    loaderScript.src = this.path;
-    document.body.appendChild(loaderScript);
     loaderScript.addEventListener('load', () => {
       (window as any).echartsLoad = LoadStatus.Loaded;
       this.ngZone.run(() => this.loaded.next(true));
     });
+    loaderScript.src = this.path;
+    document.body.appendChild(loaderScript);
   }
 }

@@ -22,11 +22,11 @@ export class ImageLazyLoadDirective implements OnInit {
   }
 
   loadInView(): void {
-    const ePos = this.getPosition();
+    const pos = this.getPosition();
     if (
-      ePos.bottom > 0 &&
-      ePos.bottom >= window.pageYOffset - this.threshold &&
-      ePos.top <= window.pageYOffset + window.innerHeight + this.threshold
+      pos.bottom > 0 &&
+      pos.bottom >= window.pageYOffset - this.threshold &&
+      pos.top <= window.pageYOffset + window.innerHeight + this.threshold
     ) {
       this.setImage();
     }
@@ -34,12 +34,10 @@ export class ImageLazyLoadDirective implements OnInit {
 
   getPosition() {
     const box = this.el.nativeElement.getBoundingClientRect();
-    const top =
-      box.top + (window.pageYOffset - document.documentElement.clientTop);
+    const top = box.top + (window.pageYOffset - document.documentElement.clientTop);
     return {
-      top: top,
-      left:
-        box.left + (window.pageXOffset - document.documentElement.clientLeft),
+      top,
+      left: box.left + (window.pageXOffset - document.documentElement.clientLeft),
       bottom: top + this.el.nativeElement.clientHeight
     };
   }
@@ -47,10 +45,6 @@ export class ImageLazyLoadDirective implements OnInit {
   setImage() {
     this.scrollSubscription.unsubscribe();
     this.scrollSubscription = null;
-    this.renderer.setElementAttribute(
-      this.el.nativeElement,
-      'src',
-      this.uiImageLazyLoad + this.imageLazyLoadParams
-    );
+    this.renderer.setElementAttribute(this.el.nativeElement, 'src', this.uiImageLazyLoad + this.imageLazyLoadParams);
   }
 }
