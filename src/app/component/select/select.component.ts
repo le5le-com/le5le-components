@@ -36,7 +36,22 @@ export class ComponentSelectComponent {
       desc: '关于选项五的描述'
     }
   ];
-  constructor() {}
+  list: any[] = [];
+  count = 1;
+  constructor() {
+    this.getRandomList();
+  }
+
+  getRandomList() {
+    this.list = [];
+    for (let i = 0; i < 5; ++i) {
+      this.list.push({
+        id: i,
+        name: '选项' + this.count++,
+        desc: '累计选项'
+      });
+    }
+  }
 
   onChange(data) {
     console.log('select change:', data);
@@ -44,5 +59,6 @@ export class ComponentSelectComponent {
 
   onInput(text: string) {
     console.log('input:', text);
+    this.getRandomList();
   }
 }

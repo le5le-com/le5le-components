@@ -117,10 +117,12 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
 
     this.search$
       .pipe(
-        debounceTime(500),
+        debounceTime(300),
         distinctUntilChanged()
       )
       .subscribe(text => {
+        console.log(text);
+        this.showDropdown = true;
         if (this.options.name && !this.options.noAutocompleteList) {
           this.options.list = [];
           for (const item of this.list) {
