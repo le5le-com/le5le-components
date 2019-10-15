@@ -124,13 +124,21 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
         this.showDropdown = true;
         if (this.options.name && this.options.autocomplete && !this.options.noAutocompleteList) {
           this.options.list = [];
+          let found: any = null;
           for (const item of this.list) {
             if (item[this.options.name].indexOf(text) > -1) {
               this.options.list.push(item);
             }
+
             if (item[this.options.name] === text) {
-              this.onSelect(null, item);
+              found = item;
             }
+          }
+
+          if (found) {
+            this.onSelect(null, found);
+          } else {
+            this.onSelect(null, text);
           }
         }
         this.autoChange.emit(text);
@@ -238,15 +246,12 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
       this.inputValue = '';
     } else {
       if (item) {
-        this._value = this.options.id ? item[this.options.id] : item;
+        this._value = this.options.id && item[this.options.id] ? item[this.options.id] : item;
       } else {
         this._value = '';
       }
-
       if (item && (this._value !== undefined || this._value !== null || this._value !== '')) {
-        this.inputValue = this.options.name ? item[this.options.name] : item;
-      } else {
-        this.inputValue = '';
+        this.inputValue = this.options.name && item[this.options.name] ? item[this.options.name] : item;
       }
 
       this.checkInputReadonly(item);
