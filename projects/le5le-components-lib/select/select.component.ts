@@ -121,13 +121,15 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
         distinctUntilChanged()
       )
       .subscribe(text => {
-        console.log(text);
         this.showDropdown = true;
-        if (this.options.name && !this.options.noAutocompleteList) {
+        if (this.options.name && this.options.autocomplete && !this.options.noAutocompleteList) {
           this.options.list = [];
           for (const item of this.list) {
             if (item[this.options.name].indexOf(text) > -1) {
               this.options.list.push(item);
+            }
+            if (item[this.options.name] === text) {
+              this.onSelect(null, item);
             }
           }
         }
@@ -308,7 +310,7 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
 
   onClickDocument(event) {
     if (!this.elemRef.nativeElement.contains(event.target)) {
-      if (!this.options.noAutocompleteList) {
+      if (this.options.autocomplete && !this.options.noAutocompleteList) {
         this.options.list = this.list;
       }
 
@@ -316,7 +318,7 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
         this.showDropdown = false;
       }
       this.clickShowDropdown = 0;
-      if (this.multi || !this._value) {
+      if (this.multi || this._value === undefined || this._value === null) {
         this.inputValue = '';
       }
     }
