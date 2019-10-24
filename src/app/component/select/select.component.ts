@@ -47,7 +47,7 @@ export class ComponentSelectComponent {
     for (let i = 0; i < 5; ++i) {
       this.list.push({
         id: i,
-        name: '选项' + this.count++,
+        name: '选项' + i,
         desc: '累计选项'
       });
     }

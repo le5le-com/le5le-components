@@ -38,7 +38,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
-  // autocomplete 表示自动完成；noDefaultOption 表示不要“请选择”
+  // autocomplete 表示自动完成；noDefaultOption 表示不要“请选择”；custom 表示允许用户输入内容作为value
   // 当autocomplete时，noAutocompleteList 表示不需要自动处理下拉选项。比如从网络读取。
   @Input()
   options: any = { id: 'id', name: 'name', list: [] };
@@ -137,7 +137,7 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
 
           if (found) {
             this.onSelect(null, found);
-          } else {
+          } else if (this.options.custom) {
             this.onSelect(null, text);
           }
         }
@@ -246,12 +246,14 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
       this.inputValue = '';
     } else {
       if (item) {
-        this._value = this.options.id && item[this.options.id] ? item[this.options.id] : item;
+        this._value = this.options.id && item[this.options.id] !== undefined ? item[this.options.id] : item;
       } else {
         this._value = '';
       }
-      if (item && (this._value !== undefined || this._value !== null || this._value !== '')) {
-        this.inputValue = this.options.name && item[this.options.name] ? item[this.options.name] : item;
+      if (item && this._value !== undefined) {
+        this.inputValue = this.options.name && item[this.options.name] !== undefined ? item[this.options.name] : item;
+      } else {
+        this.inputValue = '';
       }
 
       this.checkInputReadonly(item);
