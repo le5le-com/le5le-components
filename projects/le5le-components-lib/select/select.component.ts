@@ -10,7 +10,13 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  Validator
+} from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -36,10 +42,12 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./select.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class SelectComponent
+  implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
   // autocomplete 表示自动完成；noDefaultOption 表示不要“请选择”；custom 表示允许用户输入内容作为value
   // 当autocomplete时，noAutocompleteList 表示不需要自动处理下拉选项。比如从网络读取。
+  // options.more - 显示  更多...
   @Input()
   options: any = { id: 'id', name: 'name', list: [] };
 
@@ -55,9 +63,11 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
   required = false;
   @Input()
   placeholder = '';
+
   // tslint:disable-next-line:no-output-native
   @Output() change = new EventEmitter<any>();
   @Output() autoChange = new EventEmitter<any>();
+  @Output() more = new EventEmitter<any>();
 
   @ViewChild('input', { static: false })
   input: ElementRef;
@@ -73,7 +83,7 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
   list: any[] = [];
 
   // 下拉选项显示控制
-  clickShowDropdown = -1;
+  alwaysDropdown = false;
   showDropdown = false;
 
   // 单选显示数据
@@ -84,22 +94,16 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
 
   search$ = new Subject<string>();
 
-  private valueChange = (value: any) => {};
-  private touch = () => {};
+  private valueChange = (value: any) => { };
+  private touch = () => { };
 
   @Input()
   set dropdown(show: boolean) {
-    if (this.clickShowDropdown < 0) {
-      this.showDropdown = false;
-      this.clickShowDropdown = 0;
-      return;
-    }
-
-    this.clickShowDropdown = 1;
-    this.showDropdown = !this.showDropdown;
+    this.alwaysDropdown = show;
+    this.showDropdown = show;
   }
 
-  constructor(private elemRef: ElementRef) {}
+  constructor(private elemRef: ElementRef) { }
 
   ngOnInit() {
     if (this.multi) {
@@ -116,13 +120,14 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
     }
 
     this.search$
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged()
-      )
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe(text => {
         this.showDropdown = true;
-        if (this.options.name && this.options.autocomplete && !this.options.noAutocompleteList) {
+        if (
+          this.options.name &&
+          this.options.autocomplete &&
+          !this.options.noAutocompleteList
+        ) {
           this.options.list = [];
           let found: any = null;
           for (const item of this.list) {
@@ -172,7 +177,9 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
             }
           }
           if (item) {
-            this.inputValue = this.options.name ? item[this.options.name] : item;
+            this.inputValue = this.options.name
+              ? item[this.options.name]
+              : item;
           }
         }
       } else if (v && v.length && this.options.id && this.options.list) {
@@ -246,12 +253,18 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
       this.inputValue = '';
     } else {
       if (item) {
-        this._value = this.options.id && item[this.options.id] !== undefined ? item[this.options.id] : item;
+        this._value =
+          this.options.id && item[this.options.id] !== undefined
+            ? item[this.options.id]
+            : item;
       } else {
         this._value = '';
       }
       if (item && this._value !== undefined) {
-        this.inputValue = this.options.name && item[this.options.name] !== undefined ? item[this.options.name] : item;
+        this.inputValue =
+          this.options.name && item[this.options.name] !== undefined
+            ? item[this.options.name]
+            : item;
       } else {
         this.inputValue = '';
       }
@@ -286,8 +299,10 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
   }
 
   onClickInput(event: any) {
-    this.clickShowDropdown = -1;
-    if ((this.options.autocomplete && this.options.list.length) || this.inputReadonly) {
+    if (
+      (this.options.autocomplete && this.options.list.length) ||
+      this.inputReadonly
+    ) {
       this.setDropdown();
     }
   }
@@ -297,7 +312,10 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
       let pos = 0;
       let i = 0;
       for (const item of this.options.list) {
-        if (this._value !== undefined && this._value === item[this.options.id]) {
+        if (
+          this._value !== undefined &&
+          this._value === item[this.options.id]
+        ) {
           item.active = true;
           pos = i;
         } else {
@@ -321,10 +339,9 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
         this.options.list = this.list;
       }
 
-      if (this.clickShowDropdown !== 1) {
+      if (!this.alwaysDropdown) {
         this.showDropdown = false;
       }
-      this.clickShowDropdown = 0;
       if (this.multi || this._value === undefined || this._value === null) {
         this.inputValue = '';
       }
@@ -379,6 +396,10 @@ export class SelectComponent implements OnInit, OnDestroy, ControlValueAccessor,
     if (this.options.delOption) {
       this.options.delOption(item, i);
     }
+  }
+
+  onMore() {
+    this.more.emit();
   }
 
   ngOnDestroy() {

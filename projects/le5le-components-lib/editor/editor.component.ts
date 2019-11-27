@@ -1,4 +1,13 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -68,7 +77,11 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
       this.toolbarItems = this.options.toolbarItems;
     }
 
-    const params: UploadParam = new UploadParam(this.options.url, this.options.headers, true);
+    const params: UploadParam = new UploadParam(
+      this.options.url,
+      this.options.headers,
+      true
+    );
     this.uploader = new FileUploader(params);
     this.uploader.emitter.subscribe(ret => {
       this.editor.focus();
@@ -86,7 +99,11 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
           }
           this.images.push(ret.fileItem.url);
           this.imagesChange.emit(this.images);
-          document.execCommand('insertImage', false, ret.fileItem.url + '?w=450&h=300');
+          document.execCommand(
+            'insertImage',
+            false,
+            ret.fileItem.url + '?w=450&h=300'
+          );
           this.progress = 0;
           break;
         case 'error':
@@ -94,20 +111,31 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
           this.progress = 0;
           this.noticeService.notice({
             theme: 'error',
-            body: '上传图片' + ret.fileItem.file.name + '失败：' + ret.fileItem.error
+            body:
+              '上传图片' +
+              ret.fileItem.file.name +
+              '失败：' +
+              ret.fileItem.error
           });
           break;
       }
     });
 
-    this.editor = document.querySelector('.ui-editor .editor .article') as HTMLElement;
+    this.editor = document.querySelector(
+      '.ui-editor .editor .article'
+    ) as HTMLElement;
     if (this.content) {
       this.editor.innerHTML = this.content;
     }
+    this.options.editor = this.editor;
   }
 
   ngOnChanges(changes: any) {
-    if (this.editor && changes.content && changes.content.currentValue !== changes.content.previousValue) {
+    if (
+      this.editor &&
+      changes.content &&
+      changes.content.currentValue !== changes.content.previousValue
+    ) {
       this.onContentEdit();
     }
   }
@@ -209,7 +237,9 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
 
   getContent(): string {
     // 移除html标签
-    const tmp = this.editor.innerHTML.replace(/<[^>]*>|/g, '').replace(/ /g, '');
+    const tmp = this.editor.innerHTML
+      .replace(/<[^>]*>|/g, '')
+      .replace(/ /g, '');
     if (tmp) {
       this.content = this.editor.innerHTML;
     } else {
@@ -230,7 +260,10 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
   getTitle(): string {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.editor.childNodes.length; i++) {
-      if (this.editor.childNodes[i].nodeName && this.editor.childNodes[i].nodeName.toLowerCase() === 'h1') {
+      if (
+        this.editor.childNodes[i].nodeName &&
+        this.editor.childNodes[i].nodeName.toLowerCase() === 'h1'
+      ) {
         this.title = (this.editor.childNodes[i] as HTMLElement).innerHTML;
         this.titleChange.emit(this.title);
         break;
@@ -247,7 +280,10 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
 
     let i = 0;
     for (; i < this.editor.childNodes.length; i++) {
-      if (this.editor.childNodes[i].nodeName && this.editor.childNodes[i].nodeName.toLowerCase() === 'h1') {
+      if (
+        this.editor.childNodes[i].nodeName &&
+        this.editor.childNodes[i].nodeName.toLowerCase() === 'h1'
+      ) {
         (this.editor.childNodes[i] as HTMLElement).innerHTML = data;
         this.title = data;
         break;
@@ -297,16 +333,25 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
       e.innerHTML = data;
       e.className = 'abstract';
       if (this.editor.childNodes.length) {
-        if (this.editor.childNodes[0].nodeName && this.editor.childNodes[0].nodeName.toLowerCase() === 'h1') {
+        if (
+          this.editor.childNodes[0].nodeName &&
+          this.editor.childNodes[0].nodeName.toLowerCase() === 'h1'
+        ) {
           if (this.editor.childNodes.length > 1) {
-            this.editor.insertBefore(document.createElement('br'), this.editor.childNodes[1]);
+            this.editor.insertBefore(
+              document.createElement('br'),
+              this.editor.childNodes[1]
+            );
             this.editor.insertBefore(e, this.editor.childNodes[1]);
           } else {
             this.editor.appendChild(e);
             this.editor.appendChild(document.createElement('br'));
           }
         } else {
-          this.editor.insertBefore(document.createElement('br'), this.editor.childNodes[0]);
+          this.editor.insertBefore(
+            document.createElement('br'),
+            this.editor.childNodes[0]
+          );
           this.editor.insertBefore(e, this.editor.childNodes[0]);
         }
       } else {

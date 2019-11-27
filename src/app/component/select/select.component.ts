@@ -61,4 +61,8 @@ export class ComponentSelectComponent {
     console.log('input:', text);
     this.getRandomList();
   }
+
+  onMore() {
+    console.log('more');
+  }
 }

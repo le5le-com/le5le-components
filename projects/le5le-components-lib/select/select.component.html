@@ -9,7 +9,11 @@
       <ng-template ngFor let-item let-i="index" [ngForOf]="selectedItems">
         <div [class.selected]="multi">
           {{ options.name ? item[options.name] : item }}
-          <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
+          <i
+            *ngIf="!readonly"
+            class="iconfont icon-delete ml5"
+            (click)="onDel(item, i)"
+          ></i>
         </div>
       </ng-template>
 
@@ -30,14 +34,20 @@
           style="padding:0;flex-grow:1;width:100%"
           (focus)="lastInputValue = inputValue"
           (keyup.backspace)="onMultiDel()"
-          (keyup)="lastInputValue = inputValue; search$.next($event.target.value)"
+          (keyup)="
+            lastInputValue = inputValue; search$.next($event.target.value)
+          "
           (change)="$event.stopPropagation()"
         />
       </span>
     </div>
     <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
   </div>
-  <div class="flex middle full" *ngIf="!multi" (click)="clickShowDropdown = -1; showDropdown = true">
+  <div
+    class="flex middle full"
+    *ngIf="!multi"
+    (click)="clickShowDropdown = -1; showDropdown = true"
+  >
     <input
       *ngIf="!loading"
       class="full"
@@ -58,7 +68,7 @@
       *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
       (click)="onSelect($event, null)"
     >
-      {{ placeholder || '请选择' }}
+      {{ placeholder || "请选择" }}
     </div>
     <div class="item" *ngIf="loading">
       <span class="iconfont icon-loading icon-spin"></span>
@@ -73,12 +83,23 @@
         [title]="item.tooltip || ''"
       >
         <div class="flex middle">
-          <span class="full">{{ options.name ? item[options.name] : item }}</span>
-          <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
+          <span class="full">{{
+            options.name ? item[options.name] : item
+          }}</span>
+          <span
+            class="iconfont icon-delete pointer"
+            *ngIf="item.del"
+            (click)="onDelOption($event, item, i)"
+          ></span>
         </div>
-        <div class="desc line one" *ngIf="options.desc">{{ item[options.desc] || '无描述' }}</div>
+        <div class="desc line one" *ngIf="options.desc">
+          {{ item[options.desc] || "无描述" }}
+        </div>
       </div>
     </ng-template>
+    <div class="item" (click)="onMore()" *ngIf="options.more">
+      更多...
+    </div>
     <div
       class="item gray"
       *ngIf="
@@ -86,7 +107,10 @@
         !loading &&
         (!options.list ||
           !options.list.length ||
-          (multi && value && options.list && value.length === options.list.length))
+          (multi &&
+            value &&
+            options.list &&
+            value.length === options.list.length))
       "
     >
       暂无下拉选项

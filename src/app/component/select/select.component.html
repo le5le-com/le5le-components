@@ -2,9 +2,10 @@
   <label class="mr10">单选</label>
   <ui-select
     [(ngModel)]="single"
-    [options]="{ id: 'id', name: 'name', list: options }"
+    [options]="{ id: 'id', name: 'name', list: options, more: true }"
     [multi]="false"
     (change)="onChange($event)"
+    (more)="onMore()"
   ></ui-select>
 </div>
 
@@ -12,7 +13,13 @@
   <label class="mr10">单选（可搜索）</label>
   <ui-select
     [(ngModel)]="single"
-    [options]="{ id: 'id', name: 'name', desc: 'desc', list: options, autocomplete: true }"
+    [options]="{
+      id: 'id',
+      name: 'name',
+      desc: 'desc',
+      list: options,
+      autocomplete: true
+    }"
     [multi]="false"
     (change)="onChange($event)"
     (autoChange)="onInput($event)"
@@ -35,7 +42,14 @@
   <label class="mr10">单选（输入重新请求数据）</label>
   <ui-select
     [(ngModel)]="single"
-    [options]="{ id: 'id', name: 'name', desc: 'desc', list: list, autocomplete: true, noAutocompleteList: true }"
+    [options]="{
+      id: 'id',
+      name: 'name',
+      desc: 'desc',
+      list: list,
+      autocomplete: true,
+      noAutocompleteList: true
+    }"
     [multi]="false"
     (change)="onChange($event)"
     (autoChange)="onInput($event)"
