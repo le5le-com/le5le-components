@@ -17,6 +17,7 @@ import { ComponentUploadComponent } from './upload/upload.component';
 import { ComponentEditorComponent } from './editor/editor.component';
 import { ComponentPaginationComponent } from './pagination/pagination.component';
 import { ComponentFormComponent } from './form/form.component';
+import { ComponentProgressComponent } from './progress/progress.component';
 
 @NgModule({
   imports: [SharedModule, ComponentRoutingModule],
@@ -34,8 +35,9 @@ import { ComponentFormComponent } from './form/form.component';
     ComponentUploadComponent,
     ComponentEditorComponent,
     ComponentPaginationComponent,
-    ComponentFormComponent
+    ComponentFormComponent,
+    ComponentProgressComponent
   ],
   providers: []
 })
-export class ComponentModule {}
+export class ComponentModule { }

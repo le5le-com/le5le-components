@@ -15,6 +15,7 @@ import { ComponentUploadComponent } from './upload/upload.component';
 import { ComponentEditorComponent } from './editor/editor.component';
 import { ComponentPaginationComponent } from './pagination/pagination.component';
 import { ComponentFormComponent } from './form/form.component';
+import { ComponentProgressComponent } from './progress/progress.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -72,6 +73,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'form',
         component: ComponentFormComponent
+      },
+      {
+        path: 'progress',
+        component: ComponentProgressComponent
       }
     ]
   }
@@ -81,4 +86,4 @@ const OperatingRoutes: Routes = [
   imports: [RouterModule.forChild(OperatingRoutes)],
   exports: [RouterModule]
 })
-export class ComponentRoutingModule {}
+export class ComponentRoutingModule { }

@@ -1,0 +1,24 @@
+.ui-progress-circle {
+  position: relative;
+  overflow: hidden;
+
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.5;
+
+  & > * {
+    position: absolute;
+    left: 0;
+  }
+
+  svg {
+    transform: rotate(-90deg);
+  }
+
+  .flex {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}

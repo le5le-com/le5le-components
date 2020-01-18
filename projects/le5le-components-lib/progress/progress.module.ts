@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ProgressComponent } from './progress.component';
+import { ProgressCircleComponent } from './progress.circle.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule],
-  declarations: [ProgressComponent],
-  exports: [ProgressComponent]
+  declarations: [ProgressComponent, ProgressCircleComponent],
+  exports: [ProgressComponent, ProgressCircleComponent]
 })
-export class ProgressModule {}
+export class ProgressModule { }

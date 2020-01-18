@@ -1,0 +1,50 @@
+<div class="p20  ">
+  <ui-progress [percent]="0" class="mb20"></ui-progress>
+
+  <ui-progress [percent]="25" class="mb20" color="#52c41a"></ui-progress>
+
+  <ui-progress [percent]="50" class="mb20" bkColor="#faad14"></ui-progress>
+
+  <ui-progress [percent]="90" class="mb20" text="900 / 1000" [colors]="colors" [textStyle]="textStyle"
+    [iconStyle]="iconStyle"></ui-progress>
+
+  <ui-progress [percent]="100" class="mb20" color="#52c41a" icon="iconfont icon-check"></ui-progress>
+</div>
+
+<div class="p20 flex ">
+  <ui-progress-circle [percent]="0" class="mr20"></ui-progress-circle>
+
+  <ui-progress-circle [percent]="25" class="mr20"></ui-progress-circle>
+
+  <ui-progress-circle [percent]="50" class="mr20"></ui-progress-circle>
+
+  <ui-progress-circle [percent]="96" class="mr20"></ui-progress-circle>
+
+  <ui-progress-circle [percent]="100" class="mr20"></ui-progress-circle>
+</div>
+
+
+
+<div class="p20 flex ">
+  <ui-progress-circle [percent]="30" [size]="100" borderSize="5" desc="CPU使用率" [colors]="colors" [textStyle]="textStyle"
+    [iconStyle]="iconStyle" [descStyle]="descStyle" class="mr20">
+  </ui-progress-circle>
+
+  <ui-progress-circle [percent]="66" [size]="100" borderSize="5" desc="CPU使用率" [colors]="colors" [textStyle]="textStyle"
+    [iconStyle]="iconStyle" [descStyle]="descStyle" class="mr20">
+  </ui-progress-circle>
+
+  <ui-progress-circle [percent]="98" [size]="100" borderSize="5" desc="CPU使用率" [colors]="colors" [textStyle]="textStyle"
+    [iconStyle]="iconStyle" [descStyle]="descStyle" class="mr20">
+  </ui-progress-circle>
+</div>
+
+<div class="p20 flex ">
+  <ui-progress-circle [percent]="30" [size]="100" borderSize="5" icon="iconfont icon-check" [colors]="colors"
+    [textStyle]="textStyle" [iconStyle]="iconStyle" [descStyle]="descStyle" class="mr20">
+  </ui-progress-circle>
+
+  <ui-progress-circle [percent]="66" [size]="100" borderSize="5" icon="iconfont icon-close" [colors]="colors"
+    [textStyle]="textStyle" [iconStyle]="iconStyle" [descStyle]="descStyle" class="mr20">
+  </ui-progress-circle>
+</div>
