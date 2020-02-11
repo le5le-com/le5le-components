@@ -56,3 +56,22 @@
 .pagination .buttons > a.disabled:hover {
   background-color: #fff;
 }
+
+.up .ui-select .dropdown-list {
+  top: initial;
+  bottom: calc(100% + 1px);
+  border-top: 1px solid #26bbf0;
+  border-bottom: none;
+  border-top-left-radius: 0.04rem;
+  border-top-right-radius: 0.04rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.up .ui-select.show-dropdown.input {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom: 1px solid #26bbf0;
+  border-bottom-left-radius: 0.04rem;
+  border-bottom-right-radius: 0.04rem;
+}

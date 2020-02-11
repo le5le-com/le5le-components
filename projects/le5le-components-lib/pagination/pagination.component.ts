@@ -31,6 +31,7 @@ import { ActivatedRoute, Router } from '@angular/router';
         <ui-select
           *ngIf="options.pageCount"
           class="ml10"
+          [class.up]="up"
           style="width: .85rem"
           [(ngModel)]="pageCount"
           [options]="countOptions"
@@ -68,6 +69,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     pageCount: true,
     query: true
   };
+  @Input() up = true;
   pages: number[] = [1];
   goIndex: number;
   countOptions = {
@@ -97,7 +99,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     ],
     noDefaultOption: true
   };
-  constructor(private router: Router, private activateRoute: ActivatedRoute) {}
+  constructor(private router: Router, private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
     if (this.options.pageCount === undefined) {
@@ -118,7 +120,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+  ngOnChanges(changes: { [propertyName: string]: SimpleChange; }) {
     this.setPages();
   }
 
