@@ -7,17 +7,18 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class ImageLazyLoadDirective implements OnInit {
   @Input() uiImageLazyLoad = '';
+  @Input() parentDom: any;
   @Input() imageLazyLoadParams = '';
   @Input() threshold = 0;
   private scrollSubscription: Subscription;
   constructor(private el: ElementRef, private renderer: Renderer) {
-    const scrollStream = fromEvent(window, 'scroll').pipe(debounceTime(100));
-    this.scrollSubscription = scrollStream.subscribe(() => {
-      this.loadInView();
-    });
   }
 
   ngOnInit() {
+    const scrollStream = fromEvent(this.parentDom || window, 'scroll').pipe(debounceTime(100));
+    this.scrollSubscription = scrollStream.subscribe(() => {
+      this.loadInView();
+    });
     this.loadInView();
   }
 

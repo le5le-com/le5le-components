@@ -45,7 +45,7 @@ import { ActivatedRoute, Router } from '@angular/router';
             class="input inline"
             style="width: .5rem"
             [(ngModel)]="goIndex"
-            (keydown.enter)="onGo()"
+            (change)="onGo()"
             uiIsPositiveInteger
           />
           页

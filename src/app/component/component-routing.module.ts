@@ -16,6 +16,7 @@ import { ComponentEditorComponent } from './editor/editor.component';
 import { ComponentPaginationComponent } from './pagination/pagination.component';
 import { ComponentFormComponent } from './form/form.component';
 import { ComponentProgressComponent } from './progress/progress.component';
+import { ComponentQrcodeComponent } from './qrcode/qrcode.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -77,6 +78,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'progress',
         component: ComponentProgressComponent
+      },
+      {
+        path: 'qrcode',
+        component: ComponentQrcodeComponent
       }
     ]
   }

@@ -52,14 +52,14 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   fileItems: FileItem[] = [];
   uploader: FileUploader;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     if (!this.options.maxCount) {
       this.options.maxCount = 1;
     }
     if (!this.options.accept) {
-      this.options.accept = 'image/gif, image/jpeg, image/png, image/svg';
+      this.options.accept = 'image/*';
     }
     if (!this.options.cdn) {
       this.options.cdn = '';
@@ -154,13 +154,13 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     this.getUrls();
   }
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (changes['reset']) {
+  ngOnChanges(changes: { [propertyName: string]: SimpleChange; }) {
+    if (changes.reset) {
       this.fileItems = [];
       this.files = [];
       this.urls = [];
     }
-    if (changes['urls']) {
+    if (changes.urls) {
       for (const item of this.urls) {
         const fileItem: FileItem = new FileItem(null);
         fileItem.status = FileStatus.Success;

@@ -18,6 +18,7 @@ import { ComponentEditorComponent } from './editor/editor.component';
 import { ComponentPaginationComponent } from './pagination/pagination.component';
 import { ComponentFormComponent } from './form/form.component';
 import { ComponentProgressComponent } from './progress/progress.component';
+import { ComponentQrcodeComponent } from './qrcode/qrcode.component';
 
 @NgModule({
   imports: [SharedModule, ComponentRoutingModule],
@@ -36,7 +37,8 @@ import { ComponentProgressComponent } from './progress/progress.component';
     ComponentEditorComponent,
     ComponentPaginationComponent,
     ComponentFormComponent,
-    ComponentProgressComponent
+    ComponentProgressComponent,
+    ComponentQrcodeComponent
   ],
   providers: []
 })

@@ -1,0 +1,7 @@
+<div class="m20">
+  <input class="input" [(ngModel)]="text">
+  <button class="ml10 button primary">预览</button>
+  <div class="mt10">
+    <ui-qrcode [data]="text"></ui-qrcode>
+  </div>
+</div>
