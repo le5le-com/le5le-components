@@ -9,8 +9,8 @@ import { Component } from '@angular/core';
 export class ComponentPaginationComponent {
   pageIndex = 1;
   pageCount = 10;
-  total = 180;
-  constructor() {}
+  total = 30;
+  constructor() { }
 
   onPage() {
     console.log('onPage');

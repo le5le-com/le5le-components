@@ -34,8 +34,8 @@ export class ProgressComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!this.text && changes.percent) {
-      this.text = this.round(this.percent, this.decimal) + '%';
+    if (this.text === undefined) {
+      this.text = this.round(+this.percent || 0, this.decimal) + '%';
     }
 
     if (changes.colors) {

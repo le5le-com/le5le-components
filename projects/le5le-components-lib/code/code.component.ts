@@ -56,10 +56,10 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
   // tslint:disable-next-line:variable-name
   private _value = '';
 
-  private valueChange = (value: any) => {};
-  private touch = () => {};
+  private valueChange = (value: any) => { };
+  private touch = () => { };
 
-  constructor(private service: MonacoEditorLoaderService) {}
+  constructor(private service: MonacoEditorLoaderService) { }
 
   get value(): string {
     return this._value;
@@ -70,7 +70,7 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngAfterViewInit() {
     this.service.loaded.subscribe(ret => {
@@ -91,7 +91,7 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
     // TODO make sure to propagate the event to the autocomplete
     if (this.options.customPreventCarriageReturn === true) {
       // tslint:disable-next-line:only-arrow-functions
-      this.editor.addCommand(monaco.KeyCode.Enter, function() {
+      this.editor.addCommand(monaco.KeyCode.Enter, function () {
         return false;
       });
     }
@@ -115,7 +115,7 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
   // model -> view
   writeValue(value: string) {
     this._value = value || '';
-    if (this.editor) {
+    if (this.editor && this.editor.getModel()) {
       this.editor.getModel().setValue(this._value);
     }
   }
@@ -131,7 +131,7 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
   }
 
   // 实现Validator接口，验证有效性
-  validate(c: AbstractControl): { [key: string]: any } {
+  validate(c: AbstractControl): { [key: string]: any; } {
     if (!this.required) {
       return;
     }

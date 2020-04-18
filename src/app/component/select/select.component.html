@@ -1,57 +1,38 @@
 <div class="flex m20">
   <label class="mr10">单选</label>
-  <ui-select
-    [(ngModel)]="single"
-    [options]="{ id: 'id', name: 'name', list: options, more: true }"
-    [multi]="false"
-    (change)="onChange($event)"
-    (more)="onMore()"
-  ></ui-select>
+  <ui-select [(ngModel)]="single" [options]="{ id: 'id', name: 'name', list: options, more: true }" [multi]="false"
+    (change)="onChange($event)" (more)="onMore()"></ui-select>
 </div>
 
 <div class="flex m20">
   <label class="mr10">单选（可搜索）</label>
-  <ui-select
-    [(ngModel)]="single"
-    [options]="{
+  <ui-select [(ngModel)]="single" [options]="{
       id: 'id',
       name: 'name',
       desc: 'desc',
       list: options,
       autocomplete: true
-    }"
-    [multi]="false"
-    (change)="onChange($event)"
-    (autoChange)="onInput($event)"
-  ></ui-select>
+    }" [loading]="loading" [multi]="false" (click)="onClick()" (change)="onChange($event)"
+    (autoChange)="onInput($event)"></ui-select>
 </div>
 
 <div class="mh20 mb50">{{ single }}</div>
 <div class="flex m20">
   <label class="mr10">多选</label>
-  <ui-select
-    [(ngModel)]="multi"
-    [options]="{ id: 'id', name: 'name', list: options }"
-    (change)="onChange($event)"
-  ></ui-select>
+  <ui-select [(ngModel)]="multi" [options]="{ id: 'id', name: 'name', list: options }" (change)="onChange($event)">
+  </ui-select>
 </div>
 <div class="mh20">{{ multi | json }}</div>
 
 <div class="mt50"></div>
 <div class="flex m20">
   <label class="mr10">单选（输入重新请求数据）</label>
-  <ui-select
-    [(ngModel)]="single"
-    [options]="{
+  <ui-select [(ngModel)]="single" [options]="{
       id: 'id',
       name: 'name',
       desc: 'desc',
       list: list,
       autocomplete: true,
       noAutocompleteList: true
-    }"
-    [multi]="false"
-    (change)="onChange($event)"
-    (autoChange)="onInput($event)"
-  ></ui-select>
+    }" [multi]="false" (change)="onChange($event)" (autoChange)="onInput($event)"></ui-select>
 </div>

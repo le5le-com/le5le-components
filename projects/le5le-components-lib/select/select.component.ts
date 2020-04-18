@@ -8,7 +8,8 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  HostListener
 } from '@angular/core';
 import {
   AbstractControl,
@@ -23,10 +24,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'ui-select',
   templateUrl: 'select.component.html',
-  // tslint:disable-next-line:no-host-metadata-property
-  host: {
-    '(document:click)': 'onClickDocument($event)'
-  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -196,7 +193,7 @@ export class SelectComponent
   }
 
   // 实现Validator接口，验证有效性
-  validate(c: AbstractControl): { [key: string]: any } {
+  validate(c: AbstractControl): { [key: string]: any; } {
     if (!this.required) {
       return;
     }
@@ -300,7 +297,7 @@ export class SelectComponent
 
   onClickInput(event: any) {
     if (
-      (this.options.autocomplete && this.options.list.length) ||
+      (this.options.autocomplete && this.options.list) ||
       this.inputReadonly
     ) {
       this.setDropdown();
@@ -333,8 +330,9 @@ export class SelectComponent
     this.showDropdown = true;
   }
 
-  onClickDocument(event) {
-    if (!this.elemRef.nativeElement.contains(event.target)) {
+  @HostListener('document:click', ['$event', '$event.target'])
+  onClickDocument(event: MouseEvent, targetElement: HTMLElement) {
+    if (!this.elemRef.nativeElement.contains(event.target) && targetElement.getAttribute('data-id') !== 'ui-select-input') {
       if (this.options.autocomplete && !this.options.noAutocompleteList) {
         this.options.list = this.list;
       }

@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'ui-pagination',
   template: `
-    <div class="pagination" *ngIf="pages.length > 1">
+    <div class="pagination">
       <div class="buttons">
         <a [class.disabled]="pageIndex === 1" (click)="goPage(pageIndex - 1)"
           ><i class="iconfont icon-angle-left"></i

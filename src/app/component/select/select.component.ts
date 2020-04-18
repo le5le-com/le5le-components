@@ -38,6 +38,8 @@ export class ComponentSelectComponent {
   ];
   list: any[] = [];
   count = 1;
+
+  loading = true;
   constructor() {
     this.getRandomList();
   }
@@ -60,6 +62,13 @@ export class ComponentSelectComponent {
   onInput(text: string) {
     console.log('input:', text);
     this.getRandomList();
+  }
+
+  onClick() {
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
   }
 
   onMore() {

@@ -1,73 +1,37 @@
-<div
-  class="ui-select input"
-  [class.readonly]="readonly"
-  [class.show-dropdown]="!readonly && showDropdown"
-  (click)="onClick()"
->
+<div class="ui-select input" [class.readonly]="readonly" [class.show-dropdown]="!readonly && showDropdown"
+  (click)="onClick()">
   <div class="flex middle pl10 full" *ngIf="multi">
     <div class="flex wrap full">
       <ng-template ngFor let-item let-i="index" [ngForOf]="selectedItems">
         <div [class.selected]="multi">
           {{ options.name ? item[options.name] : item }}
-          <i
-            *ngIf="!readonly"
-            class="iconfont icon-delete ml5"
-            (click)="onDel(item, i)"
-          ></i>
+          <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
         </div>
       </ng-template>
 
       <span *ngIf="!readonly" style="flex: 1">
-        <input
-          *ngIf="!value || !value.length"
-          [(ngModel)]="inputValue"
-          [placeholder]="placeholder"
-          (keyup)="search$.next($event.target.value)"
-          (change)="$event.stopPropagation()"
-          style="width: 100%;padding-left:0"
-        />
+        <input *ngIf="!value || !value.length" [(ngModel)]="inputValue" [placeholder]="placeholder"
+          (keyup)="search$.next($event.target.value)" (change)="$event.stopPropagation()"
+          style="width: 100%;padding-left:0" />
 
-        <input
-          #input
-          *ngIf="value && value.length"
-          [(ngModel)]="inputValue"
-          style="padding:0;flex-grow:1;width:100%"
-          (focus)="lastInputValue = inputValue"
-          (keyup.backspace)="onMultiDel()"
-          (keyup)="
+        <input #input *ngIf="value && value.length" [(ngModel)]="inputValue" style="padding:0;flex-grow:1;width:100%"
+          (focus)="lastInputValue = inputValue" (keyup.backspace)="onMultiDel()" (keyup)="
             lastInputValue = inputValue; search$.next($event.target.value)
-          "
-          (change)="$event.stopPropagation()"
-        />
+          " (change)="$event.stopPropagation()" />
       </span>
     </div>
     <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
   </div>
-  <div
-    class="flex middle full"
-    *ngIf="!multi"
-    (click)="clickShowDropdown = -1; showDropdown = true"
-  >
-    <input
-      *ngIf="!loading"
-      class="full"
-      [placeholder]="placeholder"
-      [(ngModel)]="inputValue"
-      (keyup)="search$.next($event.target.value)"
-      [readOnly]="readonly || inputReadonly"
-      (click)="onClickInput($event)"
-      (change)="$event.stopPropagation()"
-    />
-    <input *ngIf="loading" class="full" />
+  <div class="flex middle full" *ngIf="!multi" (click)="clickShowDropdown = -1; showDropdown = true">
+    <input *ngIf="!loading" class="full" data-id="ui-select-input" [placeholder]="placeholder" [(ngModel)]="inputValue"
+      (keyup)="search$.next($event.target.value)" [readOnly]="readonly || inputReadonly" (click)="onClickInput($event)"
+      (change)="$event.stopPropagation()" />
+    <input *ngIf="loading" class="full" data-id="ui-select-input" [placeholder]="placeholder" />
     <i class="iconfont icon-triangle-down right"></i>
   </div>
   <div class="dropdown-list" [class.block]="showDropdown" *ngIf="!readonly">
-    <div
-      class="item"
-      [class.active]="!_value"
-      *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
-      (click)="onSelect($event, null)"
-    >
+    <div class="item" [class.active]="!_value" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
+      (click)="onSelect($event, null)">
       {{ placeholder || "请选择" }}
     </div>
     <div class="item" *ngIf="loading">
@@ -75,22 +39,13 @@
       Loading...
     </div>
     <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-      <div
-        class="item "
-        [class.active]="item.active"
-        *ngIf="!multi || !isChecked(item)"
-        (click)="onSelect($event, item)"
-        [title]="item.tooltip || ''"
-      >
+      <div class="item " [class.active]="item.active" *ngIf="!multi || !isChecked(item)"
+        (click)="onSelect($event, item)" [title]="item.tooltip || ''">
         <div class="flex middle">
           <span class="full">{{
             options.name ? item[options.name] : item
           }}</span>
-          <span
-            class="iconfont icon-delete pointer"
-            *ngIf="item.del"
-            (click)="onDelOption($event, item, i)"
-          ></span>
+          <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
         </div>
         <div class="desc line one" *ngIf="options.desc">
           {{ item[options.desc] || "无描述" }}
@@ -100,9 +55,7 @@
     <div class="item" (click)="onMore()" *ngIf="options.more">
       更多...
     </div>
-    <div
-      class="item gray"
-      *ngIf="
+    <div class="item gray" *ngIf="
         (options.noDefaultOption || options.autocomplete) &&
         !loading &&
         (!options.list ||
@@ -111,8 +64,7 @@
             value &&
             options.list &&
             value.length === options.list.length))
-      "
-    >
+      ">
       暂无下拉选项
     </div>
   </div>
