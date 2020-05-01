@@ -15,6 +15,9 @@ export class ImageLazyLoadDirective implements OnInit {
   }
 
   ngOnInit() {
+    if (typeof this.parentDom === 'string') {
+      this.parentDom = document.getElementById(this.parentDom);
+    }
     const scrollStream = fromEvent(this.parentDom || window, 'scroll').pipe(debounceTime(100));
     this.scrollSubscription = scrollStream.subscribe(() => {
       this.loadInView();

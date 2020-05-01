@@ -180,6 +180,7 @@ export class SelectComponent
           }
         }
       } else if (v && v.length && this.options.id && this.options.list) {
+        this.selectedItems = [];
         for (const id of v) {
           for (const item of this.options.list) {
             // tslint:disable-next-line:triple-equals

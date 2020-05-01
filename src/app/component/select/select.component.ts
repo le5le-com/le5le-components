@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class ComponentSelectComponent {
   single = '';
-  multi: any;
+  multi: any = ['1', '2'];
   options = [
     {
       id: '1',
@@ -42,6 +42,13 @@ export class ComponentSelectComponent {
   loading = true;
   constructor() {
     this.getRandomList();
+  }
+
+  ngOnInit(): void {
+    this.multi = ['1'];
+    setTimeout(() => {
+      this.multi = ['1'];
+    }, 200);
   }
 
   getRandomList() {
