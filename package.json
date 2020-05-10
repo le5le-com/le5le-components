@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "build": "ng build le5le-components-lib",
+    "build": "ng build le5le-components-lib --prod",
     "docs": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",

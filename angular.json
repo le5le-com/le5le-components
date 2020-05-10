@@ -100,7 +100,11 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json", "e2e/tsconfig.json"],
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
+            ],
             "exclude": ["**/node_modules/**"]
           }
         },
@@ -134,6 +138,11 @@
           "options": {
             "tsConfig": "projects/le5le-components-lib/tsconfig.lib.json",
             "project": "projects/le5le-components-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/le5le-components-lib/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
