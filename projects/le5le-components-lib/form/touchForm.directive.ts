@@ -2,7 +2,7 @@ import {
   Directive,
   Input,
   HostListener,
-  Renderer,
+  Renderer2,
   ElementRef
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -17,7 +17,7 @@ export class TouchFormDirective {
   scrollSelector = 'form';
   @Input()
   scrollTop = -10;
-  constructor(private elementRef: ElementRef, private renderer: Renderer) {}
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
 
   @HostListener('submit')
   onSubmit() {
@@ -55,10 +55,6 @@ export class TouchFormDirective {
       scrollElem.scrollTop = top + this.scrollTop;
     }
 
-    this.renderer.setElementClass(
-      this.elementRef.nativeElement,
-      'submited',
-      true
-    );
+    this.renderer.addClass(this.elementRef.nativeElement, 'submited');
   }
 }

@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   {
     path: 'component',
-    loadChildren: './component/component.module#ComponentModule'
+    loadChildren: () => import('./component/component.module').then(m => m.ComponentModule)
   }
 ];
 
@@ -17,4 +17,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

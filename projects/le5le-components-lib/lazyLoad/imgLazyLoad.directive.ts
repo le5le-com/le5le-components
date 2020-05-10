@@ -1,4 +1,4 @@
-import { OnInit, Directive, Input, Renderer, ElementRef } from '@angular/core';
+import { OnInit, Directive, Input, Renderer2, ElementRef } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ export class ImageLazyLoadDirective implements OnInit {
   @Input() imageLazyLoadParams = '';
   @Input() threshold = 0;
   private scrollSubscription: Subscription;
-  constructor(private el: ElementRef, private renderer: Renderer) {
+  constructor(private el: ElementRef, private renderer: Renderer2) {
   }
 
   ngOnInit() {
@@ -49,6 +49,6 @@ export class ImageLazyLoadDirective implements OnInit {
   setImage() {
     this.scrollSubscription.unsubscribe();
     this.scrollSubscription = null;
-    this.renderer.setElementAttribute(this.el.nativeElement, 'src', this.uiImageLazyLoad + this.imageLazyLoadParams);
+    this.renderer.setAttribute(this.el.nativeElement, 'src', this.uiImageLazyLoad + this.imageLazyLoadParams);
   }
 }
