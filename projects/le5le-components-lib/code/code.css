@@ -2,6 +2,7 @@ ui-code,
 .ui-code {
   display: block;
   min-height: 3rem;
+  height: 100%;
 }
 
 .ui-code div {

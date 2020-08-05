@@ -10,8 +10,10 @@ import {
 } from '@angular/core';
 
 import { Terminal } from 'xterm';
-import { fit } from 'xterm/lib/addons/fit/fit';
-import { attach, detach } from 'xterm/lib/addons/attach/attach';
+import { FitAddon } from 'xterm-addon-fit';
+import { AttachAddon } from 'xterm-addon-attach';
+import { SearchAddon } from 'xterm-addon-search';
+import { WebLinksAddon } from 'xterm-addon-web-links';
 
 @Component({
   selector: 'ui-xterm',
@@ -29,10 +31,13 @@ export class XTermComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('terminal', { static: false })
   terminalHost: ElementRef;
-  private xterm: Terminal;
-  private socket: WebSocket;
+  xterm: Terminal;
+  fitAddon = new FitAddon();
+  searchAddon = new SearchAddon();
+  attachAddon: AttachAddon;
+  socket: WebSocket;
   wsSuccess: boolean;
-  constructor() {}
+  constructor() { }
 
   @Input()
   public set winStatus(v: any) {
@@ -45,17 +50,21 @@ export class XTermComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setTimeout(() => {
-      fit(this.xterm);
+      this.fitAddon.fit();
     }, 100);
     setTimeout(() => {
-      fit(this.xterm);
+      this.fitAddon.fit();
     }, 500);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngAfterViewInit() {
     this.xterm = new Terminal(this.options.config);
+    this.xterm.loadAddon(this.fitAddon);
+    this.xterm.loadAddon(new WebLinksAddon());
+    this.xterm.loadAddon(this.searchAddon);
+
     this.xterm.setOption('fontSize', '14');
     this.xterm.open(this.terminalHost.nativeElement);
     this.xterm.focus();
@@ -63,9 +72,13 @@ export class XTermComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.options.xterm = this.xterm;
 
-    this.socket = new WebSocket(this.socketUrl);
-    this.socket.onopen = this.attachTerminal;
-    this.options.socket = this.socket;
+    if (this.socketUrl) {
+      this.socket = new WebSocket(this.socketUrl);
+      this.attachAddon = new AttachAddon(this.socket);
+      this.xterm.loadAddon(this.attachAddon);
+      this.socket.onopen = this.attachTerminal;
+      this.options.socket = this.socket;
+    }
   }
 
   focus() {
@@ -75,7 +88,6 @@ export class XTermComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   attachTerminal = () => {
-    attach(this.xterm, this.socket, true, false);
     this.onResize();
     this.focus();
 

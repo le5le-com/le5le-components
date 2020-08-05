@@ -1,8 +1,14 @@
 {
   "name": "le5le-components",
-  "version": "0.9.1",
+  "version": "0.9.3",
   "peerDependencies": {
     "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0"
+    "@angular/core": "^9.0.0",
+    "monaco-editor": "^0.14.3",
+    "xterm": "^4.7.0",
+    "xterm-addon-fit": "^0.4.0",
+    "xterm-addon-attach": "^0.6.0",
+    "xterm-addon-web-links": "^0.4.0",
+    "xterm-addon-search": "^0.7.0"
   }
 }

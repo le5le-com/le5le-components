@@ -10,7 +10,7 @@ export class ComponentFormComponent {
   saving = false;
   min = 0;
   max = 100;
-  constructor() {}
+  constructor() { }
 
-  onSubmit() {}
+  onSubmit(invalid: boolean) { }
 }

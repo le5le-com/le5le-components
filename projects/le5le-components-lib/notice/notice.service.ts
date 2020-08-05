@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NoticeService {
   noticeContainer = document.querySelector('.notice-container');
@@ -112,7 +112,10 @@ export class NoticeService {
 
     let footerElem = null;
     if (!options.theme || options.theme.indexOf('system-notice') < 0) {
-      if (options.maxCount > 0 && this.noticeContainer.childNodes.length >= options.maxCount) {
+      if (
+        options.maxCount > 0 &&
+        this.noticeContainer.childNodes.length >= options.maxCount
+      ) {
         this.noticeContainer.removeChild(this.noticeContainer.childNodes[0]);
       }
       this.noticeContainer.appendChild(rootElem);
@@ -135,7 +138,7 @@ export class NoticeService {
         const btn = document.createElement('button');
         btn.className = 'button default ml10';
         btn.innerHTML = item.text;
-        btn.onclick = event => {
+        btn.onclick = (event) => {
           event.stopPropagation();
           item.cb();
           close(0);
@@ -151,17 +154,17 @@ export class NoticeService {
     const headerElem = document.createElement('div');
     headerElem.className = 'modal-header';
 
-    headerElem.onmousedown = e => {
+    headerElem.onmousedown = (e) => {
       this.isDown = e;
       this.initialPos = this.getPos(headerElem.parentElement);
     };
-    parentElem.onmousemove = e => {
+    parentElem.onmousemove = (e) => {
       if (!this.isDown) {
         return;
       }
-      headerElem.parentElement.style.transform = `translate(${e.clientX -
-        this.isDown.clientX +
-        this.initialPos.x}px, ${e.clientY - this.isDown.clientY + this.initialPos.y}px)`;
+      headerElem.parentElement.style.transform = `translate(${
+        e.clientX - this.isDown.clientX + this.initialPos.x
+      }px, ${e.clientY - this.isDown.clientY + this.initialPos.y}px)`;
     };
     headerElem.onmouseup = () => {
       this.isDown = null;
@@ -174,7 +177,7 @@ export class NoticeService {
 
     const closeElem = document.createElement('i');
     closeElem.className = 'fr iconfont icon-close';
-    closeElem.onclick = event => {
+    closeElem.onclick = (event) => {
       event.stopPropagation();
       document.body.removeChild(parentElem);
       if (cb) {
@@ -201,7 +204,7 @@ export class NoticeService {
       const leftBtn = document.createElement('button');
       leftBtn.className = 'button default';
       leftBtn.innerHTML = options.leftCancelText || '取消';
-      leftBtn.onclick = event => {
+      leftBtn.onclick = (event) => {
         event.stopPropagation();
         document.body.removeChild(parentElem);
         if (options.leftCb) {
@@ -240,7 +243,7 @@ export class NoticeService {
     if (options.esc === false) {
       elem.className += ' disable-cancel';
     }
-    const cancelCallback = event => {
+    const cancelCallback = (event) => {
       event.stopPropagation();
       document.body.removeChild(elem);
       document.onkeydown = null;
@@ -251,12 +254,14 @@ export class NoticeService {
 
     const modalContentElem = document.createElement('div');
     modalContentElem.className = 'modal-content';
-    modalContentElem.onclick = event => {
+    modalContentElem.onclick = (event) => {
       event.stopPropagation();
     };
     elem.appendChild(modalContentElem);
 
-    modalContentElem.appendChild(this.makeHeaderElem(elem, options.title, options.callback));
+    modalContentElem.appendChild(
+      this.makeHeaderElem(elem, options.title, options.callback)
+    );
 
     const contentElem = document.createElement('div');
     contentElem.className = 'modal-body';
@@ -266,7 +271,7 @@ export class NoticeService {
     bodyElem.innerHTML = options.body;
     contentElem.appendChild(bodyElem);
 
-    const okCallback = event => {
+    const okCallback = (event) => {
       event.stopPropagation();
       document.body.removeChild(elem);
       document.onkeydown = null;
@@ -274,7 +279,9 @@ export class NoticeService {
         options.callback(true);
       }
     };
-    modalContentElem.appendChild(this.makeFooterElem(elem, okCallback, cancelCallback, options));
+    modalContentElem.appendChild(
+      this.makeFooterElem(elem, okCallback, cancelCallback, options)
+    );
     document.body.appendChild(elem);
 
     document.onkeydown = (event: KeyboardEvent) => {
@@ -303,19 +310,24 @@ export class NoticeService {
     if (options.theme) {
       elem.className += ' ' + options.theme;
     }
-    const cancelCallback = event => {
+    const cancelCallback = (event) => {
       event.stopPropagation();
       document.body.removeChild(elem);
+      if (options.callback) {
+        options.callback(false);
+      }
     };
 
     const modalContentElem = document.createElement('div');
     modalContentElem.className = 'modal-content';
-    modalContentElem.onclick = event => {
+    modalContentElem.onclick = (event) => {
       event.stopPropagation();
     };
     elem.appendChild(modalContentElem);
 
-    modalContentElem.appendChild(this.makeHeaderElem(elem, options.title, options.callback));
+    modalContentElem.appendChild(
+      this.makeHeaderElem(elem, options.title, options.callback)
+    );
 
     const contentElem = document.createElement('div');
     contentElem.className = 'modal-body';
@@ -342,10 +354,10 @@ export class NoticeService {
     if (options.type) {
       inputElem.setAttribute('type', options.type);
     }
-    inputElem.onclick = event => {
+    inputElem.onclick = (event) => {
       event.stopPropagation();
     };
-    const okCallback = event => {
+    const okCallback = (event) => {
       event.stopPropagation();
       if (!this.validate(inputElem, errorElem, options)) {
         return;
@@ -356,7 +368,7 @@ export class NoticeService {
         options.callback(inputElem.value);
       }
     };
-    inputElem.onkeyup = event => {
+    inputElem.onkeyup = (event) => {
       this.validate(inputElem, errorElem, options);
 
       const keyCode = event.which || event.keyCode;
@@ -369,14 +381,18 @@ export class NoticeService {
       this.validate(inputElem, errorElem, options);
     };
     bodyElem.appendChild(inputElem);
-    modalContentElem.appendChild(this.makeFooterElem(elem, okCallback, cancelCallback, options));
+    modalContentElem.appendChild(
+      this.makeFooterElem(elem, okCallback, cancelCallback, options)
+    );
 
     document.body.appendChild(elem);
     inputElem.focus();
 
     errorElem = document.createElement('div');
     errorElem.className = 'hidden';
-    errorElem.innerHTML = options.errorTip || '请输入' + (options.label || options.placeholder || '');
+    errorElem.innerHTML =
+      options.errorTip ||
+      '请输入' + (options.label || options.placeholder || '');
     bodyElem.appendChild(errorElem);
   }
 
@@ -402,12 +418,12 @@ export class NoticeService {
     if (result) {
       return {
         x: parseInt(result[2], 10),
-        y: parseInt(result[3], 10)
+        y: parseInt(result[3], 10),
       };
     } else {
       return {
         x: 0,
-        y: 0
+        y: 0,
       };
     }
   }

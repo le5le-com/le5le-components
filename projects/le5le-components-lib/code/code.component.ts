@@ -3,16 +3,16 @@ import {
   Input,
   forwardRef,
   ElementRef,
-  OnInit,
   OnDestroy,
   ViewChild,
   Output,
   EventEmitter,
-  ViewEncapsulation,
-  AfterViewInit
+  ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
-import { MonacoEditorLoaderService } from './monaco-loader.service';
+
+
+let loadingMonaco = false;
 
 declare const monaco: any;
 
@@ -36,18 +36,14 @@ declare const monaco: any;
   styleUrls: ['./code.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator, AfterViewInit {
+export class CodeComponent implements OnDestroy, ControlValueAccessor, Validator {
   @Input() required = false;
-  @Input() options: any = { language: 'ini' };
+  @Input() options: any = { language: 'javascript' };
 
   // tslint:disable-next-line:no-output-native
   @Output() change = new EventEmitter<any>();
 
-  @Input()
-  set monacoPath(value: string) {
-    this.service.monacoPath = value;
-    this.service.load();
-  }
+  @Input() monacoPath: string = '/assets/monaco/vs';
 
   editor: any;
   @ViewChild('editor', { static: false }) editorContent: ElementRef;
@@ -59,7 +55,18 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
   private valueChange = (value: any) => { };
   private touch = () => { };
 
-  constructor(private service: MonacoEditorLoaderService) { }
+  constructor() {
+    if (!(window as any).monaco && !loadingMonaco) {
+      loadingMonaco = true;
+      if (!(window as any).require) {
+        const loaderScript = document.createElement('script');
+        loaderScript.type = 'text/javascript';
+        loaderScript.src = `${this.monacoPath}/loader.js`;
+        loaderScript.addEventListener('load', this.loadMonaco);
+        document.body.appendChild(loaderScript);
+      }
+    }
+  }
 
   get value(): string {
     return this._value;
@@ -70,31 +77,28 @@ export class CodeComponent implements OnInit, OnDestroy, ControlValueAccessor, V
     }
   }
 
-  ngOnInit() { }
-
   ngAfterViewInit() {
-    this.service.loaded.subscribe(ret => {
-      if (ret) {
-        this.initMonaco();
-      }
-    });
+    if ((window as any).monaco) {
+      this.initMonaco();
+    } else if ((window as any).require) {
+      this.loadMonaco();
+    }
   }
 
-  // Will be called once monaco library is available
+  loadMonaco = () => {
+    (window as any).require.config({ paths: { 'vs': this.monacoPath } });
+    (window as any).require(['vs/editor/editor.main'], () => {
+      loadingMonaco = false;
+      this.initMonaco();
+    });
+  };
+
   initMonaco() {
     const options = Object.assign({}, this.options);
     options.value = this._value;
     this.editor = monaco.editor.create(this.editorContent.nativeElement, options);
     this.options.editor = this.editor;
 
-    // Currently setting this option prevents the autocomplete selection with the "Enter" key
-    // TODO make sure to propagate the event to the autocomplete
-    if (this.options.customPreventCarriageReturn === true) {
-      // tslint:disable-next-line:only-arrow-functions
-      this.editor.addCommand(monaco.KeyCode.Enter, function () {
-        return false;
-      });
-    }
 
     this.editor.getModel().onDidChangeContent(e => {
       this.updateValue(this.editor.getModel().getValue());

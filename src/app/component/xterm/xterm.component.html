@@ -5,6 +5,7 @@
   <button class="ml50 button primary" (click)="max=true">变大</button>
   <button class="ml50 button primary" (click)="max=false">还原</button>
   <div class="mt10" [class.max]="max">
+    <ui-xterm *ngIf="!socketUrl" [winStatus]="max"></ui-xterm>
     <ui-xterm *ngIf="socketUrl" [socketUrl]="socketUrl" [winStatus]="max"></ui-xterm>
   </div>
 </div>
